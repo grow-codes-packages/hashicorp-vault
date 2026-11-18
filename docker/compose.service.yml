@@ -1,0 +1,92 @@
+# HashiCorp Vault SDK fixture (GRO-1368) - SPEC section 8.
+# Real server mode (file storage, Shamir seal), initialised + unsealed + configured by `bootstrap`.
+# No host ports. Test services only need GROW_HASHICORP_VAULT_URL=http://hashicorp-vault:8200
+# and the read-only `bootstrap` volume (/bootstrap/env).
+
+services:
+  service:   # service under test (harness contract); reachable as `hashicorp-vault`
+    networks:
+      default:
+        aliases: [hashicorp-vault]
+    image: hashicorp/vault:2.2.2
+    command: ["vault", "server", "-config=/vault/config/vault.hcl"]
+    environment:
+      SKIP_SETCAP: "true"
+    volumes:
+      - ./config/vault.hcl:/vault/config/vault.hcl:ro
+      - vault-data:/vault/file
+    healthcheck:
+      # Process liveness only: a sealed/uninitialised server answers 200 with these overrides.
+      test: ["CMD-SHELL", "wget -q -O /dev/null 'http://127.0.0.1:8200/v1/sys/health?uninitcode=200&sealedcode=200&standbyok=true' || exit 1"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 2s
+
+  # Second, never-initialised server: target for testing.init()/testing.unseal() round trips.
+  hashicorp-vault-init:
+    image: hashicorp/vault:2.2.2
+    command: ["vault", "server", "-config=/vault/config/vault.hcl"]
+    environment:
+      SKIP_SETCAP: "true"
+    volumes:
+      - ./config/vault.hcl:/vault/config/vault.hcl:ro
+      - vault-init-data:/vault/file
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null 'http://127.0.0.1:8200/v1/sys/health?uninitcode=200&sealedcode=200&standbyok=true' || exit 1"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 2s
+
+  postgres:
+    image: postgres:18.1
+    environment:
+      POSTGRES_USER: vault_admin
+      POSTGRES_PASSWORD: vault-admin-fixture-only
+      POSTGRES_DB: app
+    volumes:
+      - ./bootstrap/postgres-init.sql:/docker-entrypoint-initdb.d/10-sdk.sql:ro
+      - pg-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vault_admin -d app -h 127.0.0.1"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 3s
+
+  # One-shot: init/unseal (idempotent, re-unseals after a restart), engines, auth, policies.
+  # Writes KEY=value lines to /bootstrap/env (+ /bootstrap/test-csr.pem).
+  bootstrap:
+    image: hashicorp/vault:2.2.2
+    user: "0:0"
+    entrypoint: ["/bin/sh", "/scripts/bootstrap.sh"]
+    environment:
+      VAULT_ADDR: http://hashicorp-vault:8200
+      PG_HOST: postgres
+      PG_PORT: "5432"
+      PG_DB: app
+      PG_ADMIN_USER: vault_admin
+      PG_ADMIN_PASSWORD: vault-admin-fixture-only
+    volumes:
+      - ./bootstrap:/scripts:ro
+      - bootstrap:/bootstrap
+    depends_on:
+      service:
+        condition: service_healthy
+      hashicorp-vault-init:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "test -s /bootstrap/env"]
+      interval: 2s
+      timeout: 2s
+      retries: 60
+    restart: "no"
+
+volumes:
+  vault-data:
+  vault-init-data:
+  pg-data:
+  bootstrap:
