@@ -1,0 +1,23 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/kv1/app/RUN/with%20space"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "c376cf6f-dd30-7d9c-6e7b-37890f2d2414",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 2764800,
+    "data": {
+      "value": "sp"
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "kv"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "LIST",
+    "path": "/v1/transit/keys"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "25036d0d-e475-5614-d943-330d03f363b0",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "keys": ["rt-aes-RUN", "sdk-aes", "sdk-sign"]
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "transit"
+  }
+}

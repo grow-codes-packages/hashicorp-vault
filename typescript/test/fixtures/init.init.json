@@ -1,0 +1,15 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "PUT",
+    "path": "/v1/sys/init"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "keys": ["REDACTED-KEY-SHARE"],
+    "keys_base64": ["REDACTED-KEY-SHARE"],
+    "root_token": "REDACTED"
+  }
+}

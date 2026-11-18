@@ -1,0 +1,26 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/sys/capabilities-self"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "sys/mounts": ["root"],
+    "capabilities": ["root"],
+    "request_id": "c24b4832-b33f-1246-1506-f5d9f6b1d704",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "capabilities": ["root"],
+      "sys/mounts": ["root"]
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "system"
+  }
+}

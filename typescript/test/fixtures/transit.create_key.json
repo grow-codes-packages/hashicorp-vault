@@ -1,0 +1,43 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/transit/keys/rt-aes-RUN"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "fdbda52b-c8f5-a0ae-cd1c-60585df46943",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "allow_plaintext_backup": false,
+      "auto_rotate_period": 0,
+      "deletion_allowed": false,
+      "derived": false,
+      "exportable": false,
+      "imported_key": false,
+      "key_usages": ["aead-encryption"],
+      "keys": {
+        "1": 1795033545
+      },
+      "latest_version": 1,
+      "latest_version_type": "aes256-gcm96",
+      "min_available_version": 0,
+      "min_decryption_version": 1,
+      "min_encryption_version": 0,
+      "name": "rt-aes-RUN",
+      "supports_decryption": true,
+      "supports_derivation": true,
+      "supports_encryption": true,
+      "supports_signing": false,
+      "type": "aes256-gcm96"
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "transit"
+  }
+}

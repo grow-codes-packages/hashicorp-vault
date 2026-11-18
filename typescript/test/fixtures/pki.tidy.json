@@ -1,0 +1,23 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/pki/tidy"
+  },
+  "status": 202,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": null,
+    "wrap_info": null,
+    "warnings": [
+      "Tidy operation successfully started. Any information from the operation will be printed to Vault's server logs."
+    ],
+    "auth": null,
+    "mount_type": ""
+  }
+}

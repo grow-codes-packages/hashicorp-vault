@@ -1,0 +1,28 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "PUT",
+    "path": "/v1/sys/leases/lookup"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "dadc47de-ec8c-ae68-3832-131b8fe159fc",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "expire_time": "2026-11-18T20:35:45.763208509Z",
+      "id": "REDACTED",
+      "issue_time": "2026-11-18T20:25:45.763208344Z",
+      "last_renewal": null,
+      "renewable": true,
+      "ttl": 599
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "system"
+  }
+}

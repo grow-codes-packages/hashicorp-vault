@@ -1,0 +1,15 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/database/config/rt-bad-RUN"
+  },
+  "status": 400,
+  "contentType": "application/json",
+  "body": {
+    "errors": [
+      "error creating database object: error verifying connection: [password]ing failed: failed to connect to `user=u database=x`: hostname resolving error: looku[password] nohost on 127.0.0.11:53: server misbehaving"
+    ]
+  }
+}

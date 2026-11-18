@@ -1,0 +1,11 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "HEAD",
+    "path": "/v1/sys/health"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": "HTTP/1.1 200 OK\r\nCache-Control: no-store\r\nContent-Type: application/json\r\nStrict-Transport-Security: max-age=31536000; includeSubDomains\r\nDate: Wed, 18 Nov 2026 20:25:44 GMT\r\n\r\n"
+}

@@ -1,0 +1,13 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "LIST",
+    "path": "/v1/kv1/app/RUN-missing"
+  },
+  "status": 404,
+  "contentType": "application/json",
+  "body": {
+    "errors": []
+  }
+}

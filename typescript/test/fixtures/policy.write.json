@@ -1,0 +1,11 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "PUT",
+    "path": "/v1/sys/policies/acl/rt-pol-RUN"
+  },
+  "status": 204,
+  "contentType": "application/json",
+  "body": null
+}

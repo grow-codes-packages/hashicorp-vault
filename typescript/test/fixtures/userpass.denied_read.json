@@ -1,0 +1,13 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/secret/data/denied/RUN"
+  },
+  "status": 403,
+  "contentType": "application/json",
+  "body": {
+    "errors": ["1 error occurred:\n\t* permission denied\n\n"]
+  }
+}

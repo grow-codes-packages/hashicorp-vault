@@ -1,0 +1,13 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/auth/token/lookup-self"
+  },
+  "status": 403,
+  "contentType": "application/json",
+  "body": {
+    "errors": ["2 errors occurred:\n\t* permission denied\n\t* invalid token\n\n"]
+  }
+}

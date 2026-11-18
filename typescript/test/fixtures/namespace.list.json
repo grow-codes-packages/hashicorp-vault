@@ -1,0 +1,13 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "LIST",
+    "path": "/v1/sys/namespaces"
+  },
+  "status": 404,
+  "contentType": "application/json",
+  "body": {
+    "errors": ["enterprise-only feature"]
+  }
+}
