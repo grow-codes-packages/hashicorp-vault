@@ -1,0 +1,15 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/sys/wrapping/unwrap"
+  },
+  "status": 400,
+  "contentType": "application/json",
+  "body": {
+    "errors": [
+      "wrapping token is not valid or does not exist"
+    ]
+  }
+}

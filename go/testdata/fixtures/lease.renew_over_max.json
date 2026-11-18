@@ -1,0 +1,23 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "PUT",
+    "path": "/v1/sys/leases/renew"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "ebedc465-d21f-959b-a47e-ef825408e885",
+    "lease_id": "database/creds/sdk-readonly/rx654LRRjpVhmh8MAR9xsuLJ",
+    "renewable": true,
+    "lease_duration": 3600,
+    "data": null,
+    "wrap_info": null,
+    "warnings": [
+      "TTL of \"277h46m39s\" exceeded the effective max_ttl of \"1h\"; TTL value is capped accordingly"
+    ],
+    "auth": null,
+    "mount_type": "system"
+  }
+}

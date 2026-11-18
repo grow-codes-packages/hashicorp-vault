@@ -1,0 +1,11 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/secret/undelete/app/RUN/alpha"
+  },
+  "status": 204,
+  "contentType": "application/json",
+  "body": null
+}

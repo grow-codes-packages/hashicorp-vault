@@ -1,0 +1,15 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "PUT",
+    "path": "/v1/sys/leases/renew"
+  },
+  "status": 400,
+  "contentType": "application/json",
+  "body": {
+    "errors": [
+      "lease not found"
+    ]
+  }
+}

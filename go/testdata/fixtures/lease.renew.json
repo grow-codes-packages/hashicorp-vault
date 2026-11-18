@@ -1,0 +1,21 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "PUT",
+    "path": "/v1/sys/leases/renew"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "3721ab63-1a95-1b50-d63f-d7f04f39856a",
+    "lease_id": "database/creds/sdk-readonly/rx654LRRjpVhmh8MAR9xsuLJ",
+    "renewable": true,
+    "lease_duration": 900,
+    "data": null,
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "system"
+  }
+}

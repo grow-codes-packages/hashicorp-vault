@@ -1,0 +1,24 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/sys/seal-status"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "type": "shamir",
+    "initialized": true,
+    "sealed": true,
+    "t": 1,
+    "n": 1,
+    "progress": 0,
+    "nonce": "",
+    "version": "2.2.2",
+    "build_date": "2026-11-11T13:53:02Z",
+    "migration": false,
+    "recovery_seal": false,
+    "storage_type": "file"
+  }
+}
