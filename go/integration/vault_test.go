@@ -107,11 +107,18 @@ func seededPaths(t *testing.T, c *vault.Client) (string, string) {
 }
 
 // tampered returns jwt with a broken signature.
+// tampered flips the FIRST character of the JWT signature. Changing the last character is not enough:
+// it carries only 2 significant bits of an RS256 signature, so the decoded bytes can stay the same.
 func tampered(jwt string) string {
-	if strings.HasSuffix(jwt, "A") {
-		return jwt[:len(jwt)-1] + "B"
+	i := strings.LastIndex(jwt, ".") + 1
+	if i <= 0 || i >= len(jwt) {
+		return jwt + "x"
 	}
-	return jwt[:len(jwt)-1] + "A"
+	c := byte('A')
+	if jwt[i] == 'A' {
+		c = 'B'
+	}
+	return jwt[:i] + string(c) + jwt[i+1:]
 }
 
 func runID(t *testing.T) string {
