@@ -9,12 +9,13 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"unicode"
 )
 
 // Client is the Vault client. It is safe for concurrent use.
 //
 // Service modules hang off the client: Auth, KV / KVv1 / KVv2, Secrets
-// (SecretsProvider over KV), Transit, Database, LeaseManager, PKI, Sys and
+// (SecretsProvider over KV), Transit, Database, Leases, PKI, Sys and
 // Wrapping. WithNamespace returns a view in another (Enterprise) namespace.
 // Close stops every background renewer and watcher.
 type Client struct {
@@ -34,8 +35,7 @@ type Client struct {
 
 	// view is set on clients made by WithNamespace: they share the parent's
 	// transport and never close it.
-	view  bool
-	nsErr error
+	view bool
 
 	modOnce  sync.Once
 	auth     *Auth
@@ -126,8 +126,8 @@ func (c *Client) Sys() *Sys { c.modules(); return c.sys }
 // Wrapping returns the response-wrapping module.
 func (c *Client) Wrapping() *Wrapping { c.modules(); return c.wrapping }
 
-// LeaseManager returns the client's lease manager (renew, revoke, auto-renew).
-func (c *Client) LeaseManager() *LeaseManager { c.modules(); return c.leases }
+// Leases returns the client's lease manager (renew, revoke, auto-renew).
+func (c *Client) Leases() *LeaseManager { c.modules(); return c.leases }
 
 // Secrets returns the SecretsProvider over Config.KVMount / Config.SecretsPath.
 // Close of the client stops its watchers.
@@ -150,18 +150,22 @@ func (c *Client) SecretsWith(opts SecretsProviderOptions) *KVSecretsProvider {
 //
 // Namespaces are a Vault Enterprise feature. Vault OSS silently ignores the
 // header and serves the root namespace, so on OSS a view reads and writes the
-// root namespace. A namespace containing whitespace makes every call of the
-// view fail with a CONFIG error.
-func (c *Client) WithNamespace(ns string) *Client {
-	cfg := c.cfg
-	cfg.Namespace = strings.Trim(ns, "/")
-	v := &Client{cfg: cfg, transport: c.transport, kvVersions: map[string]int{}, view: true}
-	if strings.ContainsAny(cfg.Namespace, " \t\r\n") {
-		v.nsErr = ConfigError("namespace must not contain whitespace")
+// root namespace. Surrounding whitespace and slashes are removed; a namespace
+// that still contains whitespace is a CONFIG error, and a closed client a
+// VALIDATION error (the same rules in every language).
+func (c *Client) WithNamespace(ns string) (*Client, error) {
+	if c.isClosed() {
+		return nil, ValidationError("withNamespace", "the client is closed")
 	}
+	cfg := c.cfg
+	cfg.Namespace = strings.Trim(strings.TrimSpace(ns), "/")
+	if strings.IndexFunc(cfg.Namespace, unicode.IsSpace) >= 0 {
+		return nil, ConfigError("withNamespace: namespace must not contain whitespace")
+	}
+	v := &Client{cfg: cfg, transport: c.transport, kvVersions: map[string]int{}, view: true}
 	v.SetToken(c.currentToken())
 	c.onClose(func() { _ = v.Close() })
-	return v
+	return v, nil
 }
 
 // Namespace returns the namespace sent as X-Vault-Namespace ("" = root).
@@ -187,13 +191,12 @@ func (c *Client) onClose(fn func()) {
 
 // Health checks the server without credentials (GET sys/health). It never
 // fails for a sealed, standby, uninitialised or unreachable server: Status is
-// "active", "standby", "perfstandby", "sealed", "uninitialized", "unhealthy"
-// or "unreachable", and Healthy is true only for an active node (HTTP 200).
+// "active", "standby", "perfstandby", "sealed", "uninitialized" or
+// "unreachable" (any transport or unexpected HTTP error), and Healthy is true
+// only for an active node. Details holds "version", "initialized", "sealed",
+// "standby" and "clusterName" (when set); on errors "error" (and "httpStatus").
 // It fails only for CANCELLED and CONFIG.
 func (c *Client) Health(ctx context.Context) (HealthStatus, error) {
-	if c.nsErr != nil {
-		return HealthStatus{}, c.nsErr
-	}
 	hs, err := c.transport.checkHealth(ctx, "health", &request{
 		Method: http.MethodGet, Path: "/v1/sys/health", Header: c.headers(""), Operation: "health",
 	})
@@ -201,22 +204,39 @@ func (c *Client) Health(ctx context.Context) (HealthStatus, error) {
 		return hs, err
 	}
 	d := hs.Details
+	status := ""
 	switch {
 	case d["initialized"] == "false":
-		hs.Status = "uninitialized"
+		status = "uninitialized"
 	case d["sealed"] == "true":
-		hs.Status = "sealed"
+		status = "sealed"
 	case d["performance_standby"] == "true":
-		hs.Status = "perfstandby"
+		status = "perfstandby"
 	case d["standby"] == "true":
-		hs.Status = "standby"
-	case d["httpStatus"] == "200":
-		hs.Status = "active"
-	default:
-		hs.Status = "unhealthy"
+		status = "standby"
+	case d["initialized"] == "true":
+		status = "active"
 	}
-	hs.Healthy = d["httpStatus"] == "200"
-	return hs, nil
+	switch d["httpStatus"] {
+	case "200", "429", "472", "473", "501", "503":
+	default:
+		status = "" // not a sys/health node state
+	}
+	if status == "" {
+		return HealthStatus{Status: "unreachable", Details: map[string]string{
+			"error": "health: unexpected sys/health response (HTTP " + d["httpStatus"] + ")", "httpStatus": d["httpStatus"],
+		}}, nil
+	}
+	out := HealthStatus{Healthy: status == "active", Status: status, Details: map[string]string{
+		"version": d["version"], "initialized": d["initialized"], "sealed": d["sealed"], "standby": d["standby"],
+	}}
+	if out.Details["standby"] == "" {
+		out.Details["standby"] = "false"
+	}
+	if d["cluster_name"] != "" {
+		out.Details["clusterName"] = d["cluster_name"]
+	}
+	return out, nil
 }
 
 // Ping makes an authenticated round trip (GET auth/token/lookup-self) and
@@ -302,9 +322,6 @@ func (c *Client) headers(token string) http.Header {
 
 // send executes r and maps Vault-specific error bodies.
 func (c *Client) send(ctx context.Context, r apiRequest) (*response, error) {
-	if c.nsErr != nil {
-		return nil, c.nsErr
-	}
 	if c.view && c.isClosed() {
 		return nil, &Error{Code: ErrorCodeCancelled, Message: r.op + ": client is closed"}
 	}
@@ -388,7 +405,8 @@ func (c *Client) statusError(op string, res *response) error {
 	return mapError(StatusError(op, res.Status, res.RequestID, vendorErrorText(res), c.transport.knownSecrets()))
 }
 
-// mapError applies the Vault-specific status refinements on top of SPEC §2.1:
+// mapError applies the Vault-specific status refinements on top of SPEC §2.1
+// (login endpoints additionally map 400/401/403 to AUTHENTICATION, see loginError):
 //
 //   - 403 with the plain "permission denied" body (missing, invalid, expired or
 //     revoked token) or a message naming an invalid/missing token is
@@ -432,5 +450,8 @@ func isAuthFailure(msg string) bool {
 			return true
 		}
 	}
-	return strings.HasSuffix(msg, "forbidden: permission denied (http 403)") && !strings.Contains(msg, "error occurred")
+	// The plain body (or no error text at all) means a missing/invalid/revoked
+	// token; a policy denial uses the wrapped "1 error occurred" form.
+	return (strings.HasSuffix(msg, "forbidden: permission denied (http 403)") || strings.HasSuffix(msg, ": forbidden (http 403)")) &&
+		!strings.Contains(msg, "error occurred")
 }

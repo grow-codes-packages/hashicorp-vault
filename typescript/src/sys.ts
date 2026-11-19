@@ -67,6 +67,8 @@ export interface SealStatus {
   recoverySeal: boolean;
   /** Server version, e.g. `2.2.2`. */
   version: string;
+  /** Server build date (RFC 3339 text, e.g. `2026-10-01T09:00:00Z`; `""` when not reported). */
+  buildDate: string;
   /** Cluster name. */
   clusterName: string;
   /** Cluster id. */
@@ -87,6 +89,10 @@ export interface LeaderStatus {
   leaderAddress: string;
   /** Cluster address of the leader. */
   leaderClusterAddress: string;
+  /** `true` on a performance standby node (Vault Enterprise). */
+  performanceStandby: boolean;
+  /** Last WAL index a performance standby saw (Vault Enterprise; `0` otherwise). */
+  performanceStandbyLastRemoteWal: number;
 }
 
 /** An ACL policy. */
@@ -238,15 +244,36 @@ function capabilityPaths(paths: string | readonly string[], op: string): string[
   return list;
 }
 
+/** Capability names returned by {@link Sys.capabilitiesSelf} / {@link Sys.capabilities}. */
+export const Capability = {
+  Create: "create",
+  Read: "read",
+  Update: "update",
+  Patch: "patch",
+  Delete: "delete",
+  List: "list",
+  Sudo: "sudo",
+  Deny: "deny",
+  Root: "root",
+} as const;
+
+/**
+ * Capabilities per requested path (`{ "secret/data/app/db": ["read", "update"] }`): a plain
+ * record with one non-enumerable helper, {@link Capabilities.allows}.
+ */
+export type Capabilities = Record<string, string[]> & {
+  /**
+   * Whether `path` grants `capability`: `root` grants everything; `deny` or a path that was not
+   * requested grants nothing. Surrounding slashes of `path` are ignored.
+   */
+  allows(path: string, capability: string): boolean;
+};
+
 /**
  * Per-path capabilities from a `sys/capabilities*` answer: read `data` first, fall back to the
  * legacy top-level copy; a single-path request may only carry `capabilities`.
  */
-function toCapabilities(
-  body: unknown,
-  paths: readonly string[],
-  op: string,
-): Record<string, string[]> {
+function toCapabilities(body: unknown, paths: readonly string[], op: string): Capabilities {
   if (body === null || body === undefined || typeof body !== "object") {
     throw unexpected(op, "empty response body");
   }
@@ -258,7 +285,15 @@ function toCapabilities(
     const raw = data[path] ?? env[path] ?? (paths.length === 1 ? data.capabilities : undefined);
     out[path] = strings(raw);
   }
-  return out;
+  Object.defineProperty(out, "allows", {
+    enumerable: false,
+    value: (path: string, capability: string): boolean => {
+      const caps = out[trimSlashes(path)] ?? [];
+      if (caps.includes(Capability.Deny)) return false;
+      return caps.includes(Capability.Root) || caps.includes(capability);
+    },
+  });
+  return out as Capabilities;
 }
 
 /** Converts a raw `sys/health` body. @internal */
@@ -301,6 +336,7 @@ export function toSealStatus(d: Record<string, unknown>): SealStatus {
     nonce: str(d.nonce),
     recoverySeal: d.recovery_seal === true,
     version: str(d.version),
+    buildDate: str(d.build_date),
     clusterName: str(d.cluster_name),
     clusterId: str(d.cluster_id),
     storageType: str(d.storage_type),
@@ -350,6 +386,8 @@ export class Sys {
       activeTime: parseTime(d.active_time),
       leaderAddress: str(d.leader_address),
       leaderClusterAddress: str(d.leader_cluster_address),
+      performanceStandby: d.performance_standby === true,
+      performanceStandbyLastRemoteWal: num(d.performance_standby_last_remote_wal),
     };
   }
 
@@ -367,13 +405,13 @@ export class Sys {
    *
    * ```ts
    * const caps = await client.sys.capabilitiesSelf(["secret/data/app/db"]);
-   * if (caps["secret/data/app/db"]?.includes("read")) { ... }
+   * if (caps.allows("secret/data/app/db", Capability.Read)) { ... }
    * ```
    */
   async capabilitiesSelf(
     paths: string | readonly string[],
     options: SysCallOptions = {},
-  ): Promise<Record<string, string[]>> {
+  ): Promise<Capabilities> {
     const list = capabilityPaths(paths, "sys.capabilitiesSelf");
     const res = await this.#ctx.http.call<Record<string, unknown>>({
       method: "POST",
@@ -394,7 +432,7 @@ export class Sys {
     token: string | Secret,
     paths: string | readonly string[],
     options: SysCallOptions = {},
-  ): Promise<Record<string, string[]>> {
+  ): Promise<Capabilities> {
     const op = "sys.capabilities";
     const value = token instanceof Secret ? token.reveal() : token;
     requireText(value, "token", op);

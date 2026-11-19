@@ -116,4 +116,6 @@ class VaultConfig(BaseConfig):
             raise ConfigError("config: secrets_path must be a string")
         if not isinstance(self.value_field, str) or not self.value_field.strip():
             raise ConfigError("config: value_field must not be empty")
+        if self.namespace is not None and any(ch.isspace() for ch in self.namespace):
+            raise ConfigError("config: namespace must not contain whitespace")
         return self

@@ -9,7 +9,7 @@ from typing import Any
 import pytest
 
 import grow_hashicorp_vault as sdk
-from _support import MockServer, closed_port_url, make_config
+from _support import MockServer, closed_port_url, make_config, spawn_capturing
 from _support import Reply as SReply
 from vmock import BASE, NO_CONTENT, TOKEN, Reply, Router, aclient, client, err, ok
 
@@ -195,6 +195,8 @@ def test_from_env_kv_settings() -> None:
         sdk.VaultConfig.from_env({"GROW_HASHICORP_VAULT_KV_VERSION": "3"})
     with pytest.raises(sdk.ConfigError):
         sdk.VaultConfig(value_field=" ").validate()
+    with pytest.raises(sdk.ConfigError, match="namespace must not contain whitespace"):
+        sdk.VaultConfig(namespace="team a").validate()
     with pytest.raises(sdk.ConfigError):
         sdk.VaultConfig(secrets_path=1).validate()  # type: ignore[arg-type]
     with sdk.VaultClient(sdk.VaultConfig(url=BASE, secrets_path="base", value_field="v")) as c:
@@ -364,11 +366,13 @@ async def test_async_health_unreachable() -> None:
 async def test_async_health_cancel(server: MockServer, monkeypatch: pytest.MonkeyPatch) -> None:
     server.enqueue(HEALTH, SReply(200, delay=2.0))
     c = real_aclient(server.url)
-    task = asyncio.ensure_future(c.health())
+    errors: list[BaseException] = []
+    task = spawn_capturing(c.health(), errors)
     await asyncio.sleep(0.1)
     task.cancel()
-    with pytest.raises(sdk.CancelledError):
+    with pytest.raises(asyncio.CancelledError):
         await task
+    assert isinstance(errors[0], sdk.CancelledError)
     await c.aclose()
     monkeypatch.setenv("GROW_HASHICORP_VAULT_URL", server.url)
     c3 = sdk.AsyncVaultClient()

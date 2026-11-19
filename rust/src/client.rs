@@ -126,11 +126,12 @@ impl VaultClient {
     }
 
     /// A view of the client whose requests carry `X-Vault-Namespace: <namespace>` (`""` = the
-    /// root namespace: no header; surrounding slashes are removed). The view shares the
+    /// root namespace: no header; surrounding whitespace and slashes are removed). The view shares the
     /// connection pool and starts with the current token; logins, token changes, KV version
     /// detection and background renewers of the view do not affect this client, which is
     /// unchanged. Closing the view stops its renewers and watchers; closing this client also
-    /// closes every view. `CONFIG` when the namespace contains whitespace.
+    /// closes every view. `CONFIG` when the namespace still contains whitespace, `VALIDATION`
+    /// when this client is closed.
     ///
     /// **Vault Enterprise only.** Vault OSS silently ignores the header and serves the root
     /// namespace, so on OSS a view reads and writes the root namespace and a wrong namespace
@@ -144,6 +145,9 @@ impl VaultClient {
     /// # }
     /// ```
     pub fn with_namespace(&self, namespace: &str) -> Result<VaultClient> {
+        if self.is_closed() {
+            return Err(Error::validation("withNamespace: the client is closed"));
+        }
         let config = self.inner.config.in_namespace(namespace)?;
         let view = VaultClient {
             inner: Arc::new(Inner {

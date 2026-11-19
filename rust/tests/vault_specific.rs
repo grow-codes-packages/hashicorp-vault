@@ -113,6 +113,10 @@ async fn with_namespace_sends_the_header_and_keeps_its_own_state() {
         c.with_namespace("team a").unwrap_err().code(),
         ErrorCode::Config
     );
+    assert_eq!(
+        c.with_namespace(" /team-b/ ").unwrap().namespace(),
+        Some("team-b")
+    );
 }
 
 #[tokio::test]
@@ -142,9 +146,11 @@ async fn with_namespace_close_semantics() {
     c.close().await;
     assert!(c.is_closed() && b.is_closed());
     assert_eq!(b.ping().await.unwrap_err().code(), ErrorCode::Cancelled);
-    // a view of a closed client is closed as well
-    let late = c.with_namespace("late").unwrap();
-    assert!(late.is_closed());
+    // a closed client makes no new views (VALIDATION, as in every language)
+    assert_eq!(
+        c.with_namespace("late").unwrap_err().code(),
+        ErrorCode::Validation
+    );
 }
 
 #[tokio::test]

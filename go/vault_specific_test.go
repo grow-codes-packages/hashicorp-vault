@@ -15,7 +15,10 @@ func TestWithNamespace(t *testing.T) {
 	c := newVaultClient(t, m, nil)
 	ctx := t.Context()
 
-	ns := c.WithNamespace("/team-a/")
+	ns, err := c.WithNamespace(" /team-a/ ")
+	if err != nil {
+		t.Fatal(err)
+	}
 	if ns.Namespace() != "team-a" || c.Namespace() != "" || ns.Config().Namespace != "team-a" {
 		t.Fatalf("namespace %q parent %q", ns.Namespace(), c.Namespace())
 	}
@@ -44,7 +47,10 @@ func TestWithNamespace(t *testing.T) {
 		t.Fatal("view token must be independent of the parent token")
 	}
 	// Nested views replace the namespace; "" is the root namespace.
-	root := ns.WithNamespace("")
+	root, err := ns.WithNamespace("")
+	if err != nil {
+		t.Fatal(err)
+	}
 	if _, err := root.KVv2("").Read(ctx, "app/RUN/login", nil); err != nil {
 		t.Fatal(err)
 	}
@@ -53,16 +59,14 @@ func TestWithNamespace(t *testing.T) {
 	}
 
 	t.Run("invalid namespace", func(t *testing.T) {
-		bad := c.WithNamespace("a b")
-		if _, err := bad.Ping(ctx); !errors.Is(err, ErrConfig) {
-			t.Fatalf("ping: %v", err)
-		}
-		if _, err := bad.Health(ctx); !errors.Is(err, ErrConfig) {
-			t.Fatalf("health: %v", err)
+		for _, ns := range []string{"a b", "team\tb", "/a\nb/"} {
+			if v, err := c.WithNamespace(ns); v != nil || !errors.Is(err, ErrConfig) {
+				t.Fatalf("%q: %v %v", ns, v, err)
+			}
 		}
 	})
 	t.Run("close", func(t *testing.T) {
-		v := c.WithNamespace("team-b")
+		v, _ := c.WithNamespace("team-b")
 		if err := v.Close(); err != nil {
 			t.Fatal(err)
 		}
@@ -73,10 +77,13 @@ func TestWithNamespace(t *testing.T) {
 		if _, err := c.KVv2("secret").Read(ctx, "app/RUN/login", nil); err != nil {
 			t.Fatalf("parent after view close: %v", err)
 		}
-		v2 := c.WithNamespace("team-c")
+		v2, _ := c.WithNamespace("team-c")
 		_ = c.Close()
 		if !v2.isClosed() {
 			t.Fatal("closing the parent closes its views")
+		}
+		if v3, err := c.WithNamespace("team-d"); v3 != nil || !errors.Is(err, ErrValidation) {
+			t.Fatalf("closed parent: %v %v", v3, err)
 		}
 	})
 }
@@ -105,6 +112,7 @@ func TestCapabilities(t *testing.T) {
 		t.Fatalf("body %v", b)
 	}
 	if !caps.Allows("secret/data/app/RUN/x", CapabilityRead) || caps.Allows("secret/data/app/RUN/x", CapabilitySudo) ||
+		!caps.Allows("/secret/data/app/RUN/x/", CapabilityRead) || (Capabilities{"p": {"read", "deny"}}).Allows("p", CapabilityRead) ||
 		caps.Allows("secret/data/denied/RUN", CapabilityRead) || caps.Allows("other", CapabilityRead) {
 		t.Fatal("Allows")
 	}

@@ -213,7 +213,7 @@ func TestTokenRenewer(t *testing.T) {
 		c := newVaultClient(t, m, nil)
 		var renews int
 		expired := make(chan struct{})
-		r, err := c.Auth().StartTokenRenewer(t.Context(), &TokenRenewerOptions{
+		r, err := c.Auth().StartRenewer(t.Context(), &TokenRenewerOptions{
 			Increment: time.Minute, Clock: newFakeClock(),
 			OnRenew:  func(*AuthInfo) { renews++ },
 			OnExpire: func() { close(expired) },
@@ -235,7 +235,7 @@ func TestTokenRenewer(t *testing.T) {
 		c := newVaultClient(t, m, nil)
 		var errs, renews int
 		expired := false
-		r, err := c.Auth().StartTokenRenewer(t.Context(), &TokenRenewerOptions{
+		r, err := c.Auth().StartRenewer(t.Context(), &TokenRenewerOptions{
 			ReLogin: true, Clock: newFakeClock(),
 			OnRenew:  func(*AuthInfo) { renews++ },
 			OnError:  func(error) { errs++ },
@@ -252,7 +252,7 @@ func TestTokenRenewer(t *testing.T) {
 			t.Fatal(err)
 		}
 		errs, expired = 0, false
-		r, _ = c.Auth().StartTokenRenewer(t.Context(), &TokenRenewerOptions{
+		r, _ = c.Auth().StartRenewer(t.Context(), &TokenRenewerOptions{
 			ReLogin: true, Clock: newFakeClock(),
 			OnRenew:  func(*AuthInfo) { renews++ },
 			OnError:  func(error) { errs++ },
@@ -274,7 +274,7 @@ func TestTokenRenewer(t *testing.T) {
 			t.Fatal(err)
 		}
 		renewed := make(chan *AuthInfo, 4)
-		r, _ := c.Auth().StartTokenRenewer(t.Context(), &TokenRenewerOptions{
+		r, _ := c.Auth().StartRenewer(t.Context(), &TokenRenewerOptions{
 			ReLogin: true, Clock: newFakeClock(), OnRenew: func(i *AuthInfo) { renewed <- i },
 		})
 		// login #2 (renewable, 3600 s) -> renew-self 404 (not configured) is not retryable -> login #3 (never expires)
@@ -290,7 +290,7 @@ func TestTokenRenewer(t *testing.T) {
 		c := newVaultClient(t, m, nil)
 		var errs int
 		expired := false
-		r, _ := c.Auth().StartTokenRenewer(t.Context(), &TokenRenewerOptions{
+		r, _ := c.Auth().StartRenewer(t.Context(), &TokenRenewerOptions{
 			Clock: newFakeClock(), OnError: func(error) { errs++ }, OnExpire: func() { expired = true },
 		})
 		waitDone(t, r.Done())
@@ -301,7 +301,7 @@ func TestTokenRenewer(t *testing.T) {
 	t.Run("non-expiring token and close", func(t *testing.T) {
 		m := newMockVault(t).data("GET", "/v1/auth/token/lookup-self", lookupData(0, false))
 		c := newVaultClient(t, m, nil)
-		r, err := c.Auth().StartTokenRenewer(t.Context(), nil)
+		r, err := c.Auth().StartRenewer(t.Context(), nil)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -311,17 +311,17 @@ func TestTokenRenewer(t *testing.T) {
 	t.Run("stop while waiting", func(t *testing.T) {
 		m := newMockVault(t).data("GET", "/v1/auth/token/lookup-self", lookupData(60, true))
 		c := newVaultClient(t, m, nil)
-		r, _ := c.Auth().StartTokenRenewer(t.Context(), &TokenRenewerOptions{Clock: blockClock{}})
+		r, _ := c.Auth().StartRenewer(t.Context(), &TokenRenewerOptions{Clock: blockClock{}})
 		r.Stop()
 		waitDone(t, r.Done())
 		m = newMockVault(t).data("GET", "/v1/auth/token/lookup-self", lookupData(60, false))
 		c = newVaultClient(t, m, nil)
-		r, _ = c.Auth().StartTokenRenewer(t.Context(), &TokenRenewerOptions{Clock: blockClock{}})
+		r, _ = c.Auth().StartRenewer(t.Context(), &TokenRenewerOptions{Clock: blockClock{}})
 		r.Stop()
 		waitDone(t, r.Done())
 	})
 	t.Run("lookup failure", func(t *testing.T) {
-		_, err := newVaultClient(t, newMockVault(t), nil).Auth().StartTokenRenewer(t.Context(), nil)
+		_, err := newVaultClient(t, newMockVault(t), nil).Auth().StartRenewer(t.Context(), nil)
 		wantCode(t, err, ErrorCodeNotFound)
 	})
 	if renewWait(time.Unix(0, 0), time.Unix(0, 0)) != minRenewWait || clockOr(nil) != SystemClock {

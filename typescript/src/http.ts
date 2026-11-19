@@ -109,7 +109,8 @@ const CAS_MISMATCH = /check-and-set parameter did not match/i;
  *   ("1 error occurred: * permission denied") stays `PERMISSION_DENIED`;
  * - 400 "check-and-set parameter did not match" → `CONFLICT`;
  * - 405 (unsupported operation) → `UNSUPPORTED`;
- * - 501 (not initialised) → `UNAVAILABLE`.
+ * - 412 (Vault Enterprise eventual consistency: the node has not caught up yet) and 501 (not
+ *   initialised) → `UNAVAILABLE` (retryable).
  */
 export function mapVaultError(err: VaultError, login = false): VaultError {
   const status = err.httpStatus;
@@ -123,7 +124,7 @@ export function mapVaultError(err: VaultError, login = false): VaultError {
     code = ErrorCode.Conflict;
   } else if (status === 405) {
     code = ErrorCode.Unsupported;
-  } else if (status === 501) {
+  } else if (status === 412 || status === 501) {
     code = ErrorCode.Unavailable;
   }
   if (code === undefined || code === err.code) return err;

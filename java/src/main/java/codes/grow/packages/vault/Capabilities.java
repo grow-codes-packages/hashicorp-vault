@@ -105,15 +105,11 @@ public final class Capabilities {
    * @return true when allowed
    */
   public boolean allows(String path, String capability) {
-    for (String c : get(path)) {
-      if (DENY.equals(c)) {
-        return false;
-      }
-      if (ROOT.equals(c) || c.equals(capability)) {
-        return true;
-      }
+    List<String> caps = get(path);
+    if (caps.contains(DENY)) {
+      return false;
     }
-    return false;
+    return caps.contains(ROOT) || caps.contains(capability);
   }
 
   /**

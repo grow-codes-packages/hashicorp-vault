@@ -6,6 +6,7 @@ import {
   type QueryValue,
   Secret,
   type TransportOptions,
+  ConfigError,
   ValidationError,
   healthStatus,
   probeHealth,
@@ -33,8 +34,22 @@ import { Wrapping, type WrapInfo } from "./wrapping.js";
 
 /** Shared state handed from a client to its {@link VaultClient.withNamespace} view. */
 interface ViewState {
-  tokens: TokenHolder;
+  /** The view's initial token (the parent's current token). */
+  token: Secret | undefined;
   transport: HttpTransport;
+  /** Token holders of the root client and all its views (redacted in every error). */
+  holders: Set<TokenHolder>;
+}
+
+/** A mutable token holder starting with `initial`. */
+function tokenHolder(initial: Secret | undefined): TokenHolder {
+  let token = initial;
+  return {
+    get: () => token,
+    set: (t) => {
+      token = t;
+    },
+  };
 }
 
 /** Set by `withNamespace()` for the duration of the view's constructor call. */
@@ -111,6 +126,8 @@ export class VaultClient {
   readonly #providers = new Set<VaultSecretsProvider>();
   readonly #views = new Set<VaultClient>();
   readonly #tokens: TokenHolder;
+  /** Token holders shared by the root client and its views (for redaction). */
+  readonly #holders: Set<TokenHolder>;
   /** `true` for a {@link withNamespace} view (it does not own the transport). */
   readonly #isView: boolean;
   #closed = false;
@@ -123,22 +140,22 @@ export class VaultClient {
     const parent = pendingView;
     pendingView = undefined;
     if (parent === undefined) {
-      let token = cfg.token;
-      const tokens: TokenHolder = {
-        get: () => token,
-        set: (t) => {
-          token = t;
-        },
-      };
-      this.#tokens = tokens;
+      const holders = new Set<TokenHolder>();
+      this.#tokens = tokenHolder(cfg.token);
+      holders.add(this.#tokens);
+      this.#holders = holders;
       this.#transport = new HttpTransport({
         ...internals,
         config: cfg,
-        knownSecrets: () => [...cfg.knownSecrets(), tokens.get()],
+        knownSecrets: () => [...cfg.knownSecrets(), ...[...holders].map((h) => h.get())],
       });
       this.#isView = false;
     } else {
-      this.#tokens = parent.tokens;
+      // A view starts with the parent's current token; afterwards its token is its own
+      // (logins and setToken on the view or the parent do not affect the other).
+      this.#tokens = tokenHolder(parent.token);
+      this.#holders = parent.holders;
+      this.#holders.add(this.#tokens);
       this.#transport = parent.transport;
       this.#isView = true;
     }
@@ -171,8 +188,8 @@ export class VaultClient {
   }
 
   /**
-   * Replaces the client token (`undefined` removes it). A {@link withNamespace} view shares the
-   * token with its parent client, so the change is visible in both.
+   * Replaces the client token (`undefined` removes it). A {@link withNamespace} view starts with
+   * its parent's token but owns it afterwards: the change affects only this client.
    */
   setToken(token: string | Secret | undefined): void {
     this.#tokens.set(Secret.from(token));
@@ -185,8 +202,10 @@ export class VaultClient {
 
   /**
    * A client view that sends `X-Vault-Namespace: <namespace>` on every request (an empty string
-   * selects the root namespace: no header). The view shares the connection pool and the token
-   * with this client; this client is not changed. Closing the view stops only its own renewers,
+   * selects the root namespace: no header). The view shares the connection pool and starts with
+   * this client's current token; after that, logins and token changes of the view and of this
+   * client are independent. Surrounding whitespace and slashes are removed; a namespace that
+   * still contains whitespace throws {@link ConfigError}. Closing the view stops only its own renewers,
    * leases and watchers; closing this client also closes its views.
    *
    * **Vault Enterprise only.** Vault OSS ignores the header and serves the root namespace, so a
@@ -203,7 +222,9 @@ export class VaultClient {
     }
     if (this.#closed) throw new ValidationError("withNamespace: the client is closed");
     const ns = trimSlashes(namespace.trim());
-    pendingView = { tokens: this.#tokens, transport: this.#transport };
+    if (/\s/.test(ns))
+      throw new ConfigError("withNamespace: namespace must not contain whitespace");
+    pendingView = { token: this.#tokens.get(), transport: this.#transport, holders: this.#holders };
     let view: VaultClient;
     try {
       view = new VaultClient(this.config.withNamespace(ns === "" ? undefined : ns));
@@ -266,7 +287,10 @@ export class VaultClient {
   secrets(options: VaultSecretsOptions = {}): VaultSecretsProvider {
     const provider: VaultSecretsProvider = new VaultSecretsProvider(
       this.kv(options.mount ?? this.config.kvMount),
-      options,
+      {
+        path: options.path ?? this.config.secretsPath,
+        valueField: options.valueField ?? this.config.valueField,
+      },
       () => this.#providers.delete(provider),
     );
     this.#providers.add(provider);
@@ -314,11 +338,12 @@ export class VaultClient {
   /**
    * Unauthenticated health: `GET /v1/sys/health` (answers 200 in every node state). `healthy`
    * is `true` only for an active, unsealed node; `status` is `active`, `standby`,
-   * `perfstandby`, `sealed` or `uninitialized` (`unreachable`/`unhealthy` on errors). Never
-   * throws except for `CANCELLED` and `CONFIG`.
+   * `perfstandby`, `sealed` or `uninitialized` (`unreachable` on any error). `details` holds
+   * `version`, `initialized`, `sealed`, `standby` and `clusterName` (when set); on errors
+   * `error` (and `httpStatus`). Never throws except for `CANCELLED` and `CONFIG`.
    */
-  health(options: CallOptions = {}): Promise<HealthStatus> {
-    return probeHealth(async () => {
+  async health(options: CallOptions = {}): Promise<HealthStatus> {
+    const status = await probeHealth(async () => {
       const h = await this.sys.health(options);
       return healthStatus(
         h.state,
@@ -332,6 +357,8 @@ export class VaultClient {
         h.state === "active",
       );
     });
+    // Any error is `unreachable` (DECISIONS §10: the status is a node state or `unreachable`).
+    return status.status === "unhealthy" ? { ...status, status: "unreachable" } : status;
   }
 
   /**
@@ -369,6 +396,7 @@ export class VaultClient {
     await this.leases.stopAll();
     await Promise.all([...this.#providers].map((p) => p.close()));
     this.#onClose?.();
-    if (!this.#isView) await this.#transport.close();
+    if (this.#isView) this.#holders.delete(this.#tokens);
+    else await this.#transport.close();
   }
 }

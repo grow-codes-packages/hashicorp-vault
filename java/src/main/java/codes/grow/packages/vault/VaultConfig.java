@@ -201,6 +201,9 @@ public final class VaultConfig {
     if (valueField.trim().isEmpty()) {
       throw new ConfigException("config: valueField must not be empty");
     }
+    if (namespace != null && namespace.chars().anyMatch(Character::isWhitespace)) {
+      throw new ConfigException("config: namespace must not contain whitespace");
+    }
     if (proxy != null) {
       try {
         URI p = new URI(proxy);

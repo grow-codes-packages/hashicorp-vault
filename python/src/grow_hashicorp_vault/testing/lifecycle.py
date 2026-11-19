@@ -110,7 +110,7 @@ def _wait_op(timeout_s: float, interval_s: float) -> Op[HealthResponse]:
     last: BaseException | None = None
     while True:
         try:
-            health = yield from health_op("testing.waitUntilActive")
+            health = yield from health_op("testing.waitForActive")
         except ServiceError as err:
             if not err.retryable:
                 raise
@@ -121,7 +121,7 @@ def _wait_op(timeout_s: float, interval_s: float) -> Op[HealthResponse]:
         remaining = deadline - time.monotonic()
         if remaining <= 0:
             raise TimeoutError(
-                f"testing.waitUntilActive: not active within {timeout_s:g}s", cause=last
+                f"testing.waitForActive: not active within {timeout_s:g}s", cause=last
             )
         yield Sleep(min(interval_s, remaining))
 

@@ -353,8 +353,17 @@ export class Transit {
     });
   }
 
-  /** Creates a key (idempotent: an existing key is returned unchanged). */
-  async createKey(name: string, options: CreateKeyOptions = {}): Promise<TransitKey> {
+  /**
+   * Creates a key (idempotent: an existing key is returned unchanged). `type` defaults to
+   * `aes256-gcm96`; it may also be given as `options.type` (positional wins).
+   */
+  async createKey(
+    name: string,
+    typeOrOptions?: TransitKeyType | CreateKeyOptions,
+    options: CreateKeyOptions = {},
+  ): Promise<TransitKey> {
+    if (typeof typeOrOptions === "object") options = typeOrOptions;
+    else if (typeOrOptions !== undefined) options = { ...options, type: typeOrOptions };
     const res = await this.#ctx.http.call<Record<string, unknown>>({
       method: "POST",
       path: this.#p("keys", this.#name(name, "createKey")),
@@ -506,7 +515,9 @@ export class Transit {
   ): Promise<Record<string, unknown>[]> {
     const op = `${kind}Batch ${name}`;
     if (input.length === 0) return [];
-    // 207 instead of 400 when some items fail, so per-item results are always readable.
+    // 207 instead of 400 when some items fail, so per-item results are always readable (the
+    // generated transport does not expose 4xx bodies, so a 400 + batch_results answer of a server
+    // that ignores the parameter is an error here; see docs/compatibility.md).
     const d = await this.#post<{ batch_results?: unknown }>(
       this.#p(kind, this.#name(name, `${kind}Batch`)),
       op,

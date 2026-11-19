@@ -169,6 +169,7 @@ describe("Sys", () => {
       progress: 0,
       recoverySeal: false,
       version: "2.2.2",
+      buildDate: "2026-11-11T13:53:02Z",
     });
     expect(await sys.sealStatus()).toMatchObject({ sealed: true, storageType: "file" });
     expect((await rejection(sys.sealStatus())).message).toContain("empty response body");
@@ -179,6 +180,8 @@ describe("Sys", () => {
       isSelf: false,
       leaderAddress: "",
       leaderClusterAddress: "",
+      performanceStandby: false,
+      performanceStandbyLastRemoteWal: 0,
     });
     expect(leader.activeTime).toBeInstanceOf(Date);
     const health = await sys.health();

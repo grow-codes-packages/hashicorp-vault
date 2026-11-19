@@ -132,7 +132,7 @@ impl VaultConfig {
 
     /// A copy in `namespace` (surrounding slashes removed; empty = root namespace).
     pub(crate) fn in_namespace(&self, namespace: &str) -> Result<VaultConfig> {
-        let ns = namespace.trim_matches('/');
+        let ns = namespace.trim().trim_matches('/');
         let mut config = self.clone();
         config.namespace = (!ns.is_empty()).then(|| ns.to_owned());
         config.validate()?;

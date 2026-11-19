@@ -2,7 +2,7 @@
 // (`sys.capabilities` / `sys.capabilitiesSelf`).
 
 import { describe, expect, it } from "vitest";
-import { VaultClient } from "../src/index.js";
+import { Capability, VaultClient } from "../src/index.js";
 import { data, rejection, vault } from "./support/vault.js";
 
 describe("withNamespace (Enterprise only; Vault OSS ignores the header)", () => {
@@ -61,17 +61,41 @@ describe("withNamespace (Enterprise only; Vault OSS ignores the header)", () => 
     expect(m.req().headers["x-vault-namespace"]).toBeUndefined();
   });
 
-  it("the view shares the token with its parent", async () => {
-    const m = await vault({ "GET /v1/auth/token/lookup-self": "token.lookup_self" });
+  it("the view starts with the parent's token, then owns its token", async () => {
+    const m = await vault({
+      "GET /v1/auth/token/lookup-self": "token.lookup_self",
+      "GET /v1/secret/data/app/RUN/login": {
+        status: 403,
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ errors: ["permission denied"] }),
+      },
+    });
     const c = m.client();
     const view = c.withNamespace("ns1");
     expect(view.token?.reveal()).toBe("root-token-test");
     view.setToken("s.from-view");
-    expect(c.token?.reveal()).toBe("s.from-view");
+    expect(c.token?.reveal()).toBe("root-token-test");
     c.setToken("s.from-parent");
+    expect(view.token?.reveal()).toBe("s.from-view");
     await view.ping();
-    expect(m.req().headers["x-vault-token"]).toBe("s.from-parent");
+    expect(m.req().headers["x-vault-token"]).toBe("s.from-view");
     expect(m.req().headers["x-vault-namespace"]).toBe("ns1");
+    await c.ping();
+    expect(m.req().headers["x-vault-token"]).toBe("s.from-parent");
+    expect(m.req().headers["x-vault-namespace"]).toBeUndefined();
+    // The view's own token is redacted in errors as well.
+    const err = await rejection(view.kvV2("secret").read("app/RUN/login"));
+    expect(err.code).toBe("AUTHENTICATION");
+    expect(String(err)).not.toContain("s.from-view");
+  });
+
+  it("rejects a namespace containing whitespace eagerly (CONFIG)", async () => {
+    const m = await vault();
+    const c = m.client();
+    for (const ns of ["a b", "team\tb", "/a\nb/"]) {
+      expect(() => c.withNamespace(ns)).toThrow(/must not contain whitespace/);
+    }
+    expect(() => m.client({ namespace: "a b" })).toThrow(/must not contain whitespace/);
   });
 
   it("closing a view keeps the parent usable; closing the parent closes its views", async () => {
@@ -108,6 +132,7 @@ describe("capabilities", () => {
     const m = await vault({
       "POST /v1/sys/capabilities-self": [
         "capabilities_self.plural",
+        "capabilities_self.plural",
         "capabilities_self.single",
         "capabilities_self.root",
       ],
@@ -120,12 +145,21 @@ describe("capabilities", () => {
       [denied]: ["deny"],
     });
     expect(m.body()).toEqual({ paths: [allowed, denied] });
+    const caps = await sys.capabilitiesSelf([allowed, denied]);
+    expect(caps.allows(allowed, Capability.Read)).toBe(true);
+    expect(caps.allows(`/${allowed}/`, "patch")).toBe(true);
+    expect(caps.allows(allowed, Capability.Sudo)).toBe(false);
+    expect(caps.allows(denied, Capability.Read)).toBe(false);
+    expect(caps.allows("not-requested", Capability.Read)).toBe(false);
+    expect(Object.keys(caps)).toEqual([allowed, denied]);
     expect(m.req().headers["x-vault-token"]).toBe("root-token-test");
     expect(await sys.capabilitiesSelf("transit/encrypt/sdk-aes")).toEqual({
       "transit/encrypt/sdk-aes": ["update"],
     });
     expect(m.body()).toEqual({ paths: ["transit/encrypt/sdk-aes"] });
-    expect(await sys.capabilitiesSelf(["sys/mounts"])).toEqual({ "sys/mounts": ["root"] });
+    const root = await sys.capabilitiesSelf(["sys/mounts"]);
+    expect(root).toEqual({ "sys/mounts": ["root"] });
+    expect(root.allows("sys/mounts", Capability.Delete)).toBe(true);
   });
 
   it("falls back to the top-level copy and to `capabilities` for one path", async () => {

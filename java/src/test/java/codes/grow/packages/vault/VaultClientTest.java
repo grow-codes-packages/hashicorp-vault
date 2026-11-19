@@ -395,6 +395,9 @@ class VaultClientTest {
         .hasMessageContaining(P + "KV_VERSION");
     assertThatThrownBy(() -> VaultConfig.builder().valueField(" ").build())
         .isInstanceOf(ConfigException.class);
+    assertThatThrownBy(() -> VaultConfig.builder().namespace("team a").build())
+        .isInstanceOf(ConfigException.class)
+        .hasMessageContaining("namespace must not contain whitespace");
     try (VaultClient client =
         VaultClient.create(
             VaultConfig.builder()

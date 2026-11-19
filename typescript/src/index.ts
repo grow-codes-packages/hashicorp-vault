@@ -40,6 +40,8 @@ export {
 export {
   type AppRoleMountOptions,
   type AppRoleOptions,
+  type Capabilities,
+  Capability,
   type EnableAuthOptions,
   type EnableEngineOptions,
   type HealthResponse,

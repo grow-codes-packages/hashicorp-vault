@@ -153,6 +153,40 @@ describe("VaultConfig", () => {
     expect(err?.message).toContain("GROW_HASHICORP_VAULT_TOTAL_TIMEOUT");
     expect(err?.message).not.toContain("forever-and-secret");
   });
+
+  it("reads the KV settings of client.secrets() from the environment", async () => {
+    const c = VaultConfig.fromEnv(
+      {},
+      {
+        GROW_HASHICORP_VAULT_KV_MOUNT: "kv1",
+        GROW_HASHICORP_VAULT_KV_VERSION: "1",
+        GROW_HASHICORP_VAULT_SECRETS_PATH: "/apps/web/",
+      },
+    );
+    expect([c.kvMount, c.kvVersion, c.secretsPath, c.valueField]).toEqual([
+      "kv1",
+      1,
+      "apps/web",
+      "value",
+    ]);
+    expect(
+      VaultConfig.fromEnv({}, { GROW_HASHICORP_VAULT_KV_VERSION: "0" }).kvVersion,
+    ).toBeUndefined();
+    expect(
+      VaultConfig.fromEnv({ kvMount: "x" }, { GROW_HASHICORP_VAULT_KV_MOUNT: "y" }).kvMount,
+    ).toBe("x");
+    expect(() => VaultConfig.fromEnv({}, { GROW_HASHICORP_VAULT_KV_VERSION: "3" })).toThrow(
+      /GROW_HASHICORP_VAULT_KV_VERSION/,
+    );
+    expect(() => new VaultConfig({ valueField: " " })).toThrow(ConfigError);
+    const client = new VaultClient(
+      new VaultConfig({ url: "http://127.0.0.1:1", secretsPath: "base", valueField: "v" }),
+    );
+    const p = client.secrets();
+    expect([p.path, p.valueField]).toEqual(["base", "v"]);
+    expect(client.secrets({ path: "other", valueField: "w" }).path).toBe("other");
+    await client.close();
+  });
 });
 
 describe("VaultClient basics", () => {
@@ -198,7 +232,7 @@ describe("VaultClient basics", () => {
     expect(await c.health()).toMatchObject({ healthy: false, status: "unreachable" });
     expect(await c.health()).toMatchObject({
       healthy: false,
-      status: "unhealthy",
+      status: "unreachable",
       details: { httpStatus: "500" },
     });
   });
@@ -328,8 +362,9 @@ describe("error mapping", () => {
     expect((await rejection(c.kv().read("x"))).code).toBe("AUTHENTICATION");
   });
 
-  it("400 CAS mismatch = CONFLICT, 405 = UNSUPPORTED, 501 = UNAVAILABLE, 429 = RATE_LIMITED", async () => {
+  it("400 CAS mismatch = CONFLICT, 405 = UNSUPPORTED, 412/501 = UNAVAILABLE, 429 = RATE_LIMITED", async () => {
     const m = await vault({
+      "GET /v1/secret/data/e": errors(412, "required index state not present"),
       "POST /v1/secret/data/a": "kv2.write_cas0_conflict",
       "PATCH /v1/kv1/a": "kv1.patch_unsupported",
       "GET /v1/secret/data/b": errors(501, "Vault is not initialized"),
@@ -351,6 +386,9 @@ describe("error mapping", () => {
     expect((await rejection(c.request("PATCH", "kv1/a", { json: {} }))).code).toBe("UNSUPPORTED");
     const unavailable = await rejection(c.kv().read("b"));
     expect(unavailable).toBeInstanceOf(UnavailableError);
+    const consistency = await rejection(c.kv().read("e"));
+    expect(consistency).toBeInstanceOf(UnavailableError);
+    expect(consistency).toMatchObject({ httpStatus: 412, retryable: true });
     const limited = await rejection(c.kvV1("kv1").read("sdk/allowed/hello"));
     expect(limited.code).toBe("RATE_LIMITED");
     expect(limited.retryAfterMs).toBe(29_000);

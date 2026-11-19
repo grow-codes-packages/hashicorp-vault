@@ -134,7 +134,10 @@ func run() error {
 
 	// Namespace view (Vault Enterprise). Vault OSS ignores the header and
 	// serves the root namespace, so this reads the same secret there.
-	team := client.WithNamespace("team-a")
+	team, err := client.WithNamespace("team-a")
+	if err != nil {
+		return err
+	}
 	if _, found, err := team.Secrets().GetString(ctx, "examples/go/db-password", nil); err == nil {
 		fmt.Printf("namespace %q view: secret found=%t\n", team.Namespace(), found)
 	}
