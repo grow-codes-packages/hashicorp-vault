@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/grow-codes-packages/hashicorp-vault/compare/python-v0.1.1...python-v0.1.2) (2026-11-19)
+
+
+### Dependencies
+
+* **python:** Update cryptography requirement from &gt;=43 to &gt;=50.0.2 in /python in the python group across 1 directory ([#10](https://github.com/grow-codes-packages/hashicorp-vault/issues/10)) ([e32d8c7](https://github.com/grow-codes-packages/hashicorp-vault/commit/e32d8c74bc0e3b39dbc629ba0c72db18a3d38046))
+
 ## [0.1.1](https://github.com/grow-codes-packages/hashicorp-vault/compare/python-v0.1.0...python-v0.1.1) (2026-11-19)
 
 

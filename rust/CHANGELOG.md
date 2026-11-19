@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/grow-codes-packages/hashicorp-vault/compare/rust-v0.1.1...rust-v0.1.2) (2026-11-19)
+
+
+### Dependencies
+
+* **rust:** Bump the rust group across 1 directory with 3 updates ([#5](https://github.com/grow-codes-packages/hashicorp-vault/issues/5)) ([5728849](https://github.com/grow-codes-packages/hashicorp-vault/commit/5728849db14ebeeb2620eb24e3f217a708e58759))
+
 ## [0.1.1](https://github.com/grow-codes-packages/hashicorp-vault/compare/rust-v0.1.0...rust-v0.1.1) (2026-11-19)
 
 
