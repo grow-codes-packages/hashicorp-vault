@@ -1,0 +1,25 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/sys/wrapping/lookup"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "b461954a-a992-1e24-260f-a4e8b76c7ea9",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "creation_path": "sys/wrapping/wrap",
+      "creation_time": "2026-11-18T20:25:46.17250013Z",
+      "creation_ttl": 300
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": ""
+  }
+}
