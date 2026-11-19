@@ -111,7 +111,7 @@ describe("withNamespace (Enterprise only; Vault OSS ignores the header)", () => 
     expect(b.closed).toBe(true);
     expect(c.closed).toBe(true);
     expect(() => c.withNamespace("c")).toThrow(/closed/);
-    expect((await rejection(b.sys.health())).code).toBe("CONFIG");
+    expect((await rejection(b.sys.health())).code).toBe("CANCELLED");
   });
 
   it("rejects a non-string namespace", async () => {

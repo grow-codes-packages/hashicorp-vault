@@ -274,7 +274,7 @@ describe("VaultClient basics", () => {
     await expect(c.serverVersion()).rejects.toMatchObject({ code: "UNSUPPORTED" });
   });
 
-  it("core.close.idempotent: close twice; calls after close raise CONFIG", async () => {
+  it("core.close.idempotent: close twice; calls after close raise CANCELLED", async () => {
     const m = await vault({ "GET /v1/sys/health": "health" });
     const c = m.client();
     await c.health();
@@ -282,7 +282,7 @@ describe("VaultClient basics", () => {
     await c.close();
     await c.close();
     expect(c.closed).toBe(true);
-    await expect(c.ping()).rejects.toMatchObject({ code: "CONFIG" });
+    await expect(c.ping()).rejects.toMatchObject({ code: "CANCELLED" });
   });
 
   it("fromEnv builds from GROW_* variables; namespace header is sent", async () => {
