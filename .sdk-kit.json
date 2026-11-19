@@ -81,7 +81,7 @@
     },
     {
       "path": ".github/workflows/release.yml",
-      "sha256": "826b1e529cacfd7359e9e13239bdd1559597fe12539fef942d2f41ef638e9be3",
+      "sha256": "9fd14a925ec4f402a9a8a504da0c9a3e1367724419aabc50923caff98ada2db4",
       "generated": true
     },
     {
@@ -91,7 +91,7 @@
     },
     {
       "path": ".release-please-manifest.json",
-      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "sha256": "8bb8eecb8fb9f763e2a20886e5ed9cc77e6c8f2ead86f3ef0291e54d9ae75250",
       "generated": false
     },
     {
@@ -670,7 +670,7 @@
     },
     {
       "path": "java/Makefile",
-      "sha256": "c7d49b3bb31992025114d41d2fcef0dc91736b18da002a703c8e807c3a1ef228",
+      "sha256": "a2cd23d07270bb6ddce5965e6e7a0148d8e09bf11de9ccd3af2fb591f8252750",
       "generated": false
     },
     {
@@ -1255,7 +1255,7 @@
     },
     {
       "path": "python/src/grow_hashicorp_vault/_version.py",
-      "sha256": "326553d84c140a43dd807c7e7ffd9a77a0b48f004b8de216cf29e7959ca2ed0e",
+      "sha256": "a77fa54f51fdf50ebdb72c3a3172a1bc4dbc18af2125c9b46a337b7947d33a8e",
       "generated": false
     },
     {
@@ -1655,7 +1655,7 @@
     },
     {
       "path": "typescript/Makefile",
-      "sha256": "a4f16ed9b5d004bd1ef1d61d49d95e764bc1142bef52274c35d6da78238693c4",
+      "sha256": "fab2fc9f5607909f8eea2a67a9eca7747ca80e38f3893b357ca897cdaf3f9f0b",
       "generated": false
     },
     {
