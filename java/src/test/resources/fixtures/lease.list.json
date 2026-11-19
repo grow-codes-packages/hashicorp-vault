@@ -1,0 +1,25 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "LIST",
+    "path": "/v1/sys/leases/lookup/database/creds/sdk-readonly"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "fa47db97-d61a-660e-d7f0-ae05fb57dc6d",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "keys": [
+        "rx654LRRjpVhmh8MAR9xsuLJ"
+      ]
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "system"
+  }
+}

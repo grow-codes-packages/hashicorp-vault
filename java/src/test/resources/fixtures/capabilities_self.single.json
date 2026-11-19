@@ -1,0 +1,34 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/sys/capabilities-self"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "capabilities": [
+      "update"
+    ],
+    "transit/encrypt/sdk-aes": [
+      "update"
+    ],
+    "request_id": "5cdf5d4d-be42-9176-1699-f6ae6201e6f7",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "capabilities": [
+        "update"
+      ],
+      "transit/encrypt/sdk-aes": [
+        "update"
+      ]
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "system"
+  }
+}

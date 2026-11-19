@@ -1,0 +1,8 @@
+{
+  "service": "hashicorp-vault",
+  "synthetic": "hand-written: sys/wrapping/wrap without X-Vault-Wrap-TTL (the SDK always sends the header)",
+  "request": {"method": "POST", "path": "/v1/sys/wrapping/wrap"},
+  "status": 400,
+  "contentType": "application/json",
+  "body": {"errors": ["endpoint requires response wrapping to be used"]}
+}

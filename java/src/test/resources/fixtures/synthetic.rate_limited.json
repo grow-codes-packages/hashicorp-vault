@@ -1,0 +1,9 @@
+{
+  "service": "hashicorp-vault",
+  "synthetic": "hand-written: Vault 2.2.2 rate-limit quota answer (shape from the Vault docs; not producible by the single-node fixture without sys/quotas)",
+  "request": {"method": "GET", "path": "/v1/kv1/app/hello"},
+  "status": 429,
+  "contentType": "application/json",
+  "headers": ["Retry-After: 29", "X-Ratelimit-Limit: 1", "X-Ratelimit-Remaining: 0", "X-Ratelimit-Reset: 29"],
+  "body": {"errors": ["request path \"kv1/app/hello\": rate limit quota exceeded"]}
+}

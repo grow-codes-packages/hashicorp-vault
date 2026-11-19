@@ -1,0 +1,25 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/identity/oidc/token/sdk"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "a12d83b7-03e4-8259-4470-ea58b01400bc",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "client_id": "8L5p2wkfwgO0MimY0Y31gWonom",
+      "token": "REDACTED",
+      "ttl": 86400
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "identity"
+  }
+}

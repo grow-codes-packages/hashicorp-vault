@@ -1,0 +1,15 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/pki/revoke"
+  },
+  "status": 400,
+  "contentType": "application/json",
+  "body": {
+    "errors": [
+      "certificate with serial 00-11-22-33 not found."
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/pki/sign/sdk-test"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "14b576bd-77dc-c33f-e825-3bff8ee29834",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "authority_key_id": "15:41:26:f8:1a:dd:33:67:88:2d:71:09:bf:db:36:6e:6f:51:49:40",
+      "ca_chain": [
+        "-----BEGIN CERTIFICATE-----\nMIIBpDCCAUugAwIBAgIUfknNPv5GMQletTtlUdiAFAfYi7QwCgYIKoZIzj0EAwIw\nIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290IENBMB4XDTI2MTExODIwMjUx\nMVoXDTM2MTExNTIwMjU0MVowIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290\nIENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXwE6cUD9eTDn45sJpZ6xI/1d\n6XNr7yxr3/sOqxKnqu1gf7RZoU5sIP3dxUumOuZmUjVlV/Vf6xKxA4987o9IF6Nj\nMGEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFBVB\nJvga3TNniC1xCb/bNm5vUUlAMB8GA1UdIwQYMBaAFBVBJvga3TNniC1xCb/bNm5v\nUUlAMAoGCCqGSM49BAMCA0cAMEQCICft0K3cKcCbS8zmNfyoKyiXgTDGw7xq/Z4f\nf+mtu+2JAiATWflfD6MN5aK9MFaFUWgOGBGCjuQ/ZG+rTH+H5Nc/sw==\n-----END CERTIFICATE-----"
+      ],
+      "certificate": "-----BEGIN CERTIFICATE-----\nMIICQzCCAemgAwIBAgIUUqI4/zcLN+V+6IHwCIJDttbXWDswCgYIKoZIzj0EAwIw\nIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290IENBMB4XDTI2MTExODIwMjUx\nNVoXDTI2MTExODIxMjU0NVowFzEVMBMGA1UEAxMMY3NyLnNkay50ZXN0MFkwEwYH\nKoZIzj0CAQYIKoZIzj0DAQcDQgAEIMdZa8WhEx10U6YMQy2aMdNrY/81uzSRTQrk\nxRDCFjboNd8T7Y9BpMGfQWWp5Au6fHzT6B9H/q7pivOT7F1C1KOCAQgwggEEMA4G\nA1UdDwEB/wQEAwIDqDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwHQYD\nVR0OBBYEFEIGsZ0UYrRqJYg6d/v+Ub+pqp6mMB8GA1UdIwQYMBaAFBVBJvga3TNn\niC1xCb/bNm5vUUlAMEEGCCsGAQUFBwEBBDUwMzAxBggrBgEFBQcwAoYlaHR0cDov\nL2hhc2hpY29ycC12YXVsdDo4MjAwL3YxL3BraS9jYTAXBgNVHREEEDAOggxjc3Iu\nc2RrLnRlc3QwNwYDVR0fBDAwLjAsoCqgKIYmaHR0cDovL2hhc2hpY29ycC12YXVs\ndDo4MjAwL3YxL3BraS9jcmwwCgYIKoZIzj0EAwIDSAAwRQIhANMV+TXhJMCW9sr5\ntC8GJzlsFpdOgcuq8xlI1dZkNGEKAiAK8MOoSy/HumpbVbtZn2j6bPxT5SlAeroi\np7Jbi3V1lA==\n-----END CERTIFICATE-----",
+      "expiration": 1795037145,
+      "issuing_ca": "-----BEGIN CERTIFICATE-----\nMIIBpDCCAUugAwIBAgIUfknNPv5GMQletTtlUdiAFAfYi7QwCgYIKoZIzj0EAwIw\nIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290IENBMB4XDTI2MTExODIwMjUx\nMVoXDTM2MTExNTIwMjU0MVowIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290\nIENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXwE6cUD9eTDn45sJpZ6xI/1d\n6XNr7yxr3/sOqxKnqu1gf7RZoU5sIP3dxUumOuZmUjVlV/Vf6xKxA4987o9IF6Nj\nMGEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFBVB\nJvga3TNniC1xCb/bNm5vUUlAMB8GA1UdIwQYMBaAFBVBJvga3TNniC1xCb/bNm5v\nUUlAMAoGCCqGSM49BAMCA0cAMEQCICft0K3cKcCbS8zmNfyoKyiXgTDGw7xq/Z4f\nf+mtu+2JAiATWflfD6MN5aK9MFaFUWgOGBGCjuQ/ZG+rTH+H5Nc/sw==\n-----END CERTIFICATE-----",
+      "serial_number": "52:a2:38:ff:37:0b:37:e5:7e:e8:81:f0:08:82:43:b6:d6:d7:58:3b"
+    },
+    "wrap_info": null,
+    "warnings": [
+      "the common_name field was provided but the role is set with \"use_csr_common_name\" set to true"
+    ],
+    "auth": null,
+    "mount_type": "pki"
+  }
+}

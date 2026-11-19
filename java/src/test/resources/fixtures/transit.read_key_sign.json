@@ -1,0 +1,51 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/transit/keys/sdk-sign"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "e39e4a57-43a9-bae1-e0f7-5c31cdcbca8e",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "allow_plaintext_backup": false,
+      "auto_rotate_period": 0,
+      "deletion_allowed": false,
+      "derived": false,
+      "exportable": false,
+      "imported_key": false,
+      "key_usages": [
+        "digital-signature"
+      ],
+      "keys": {
+        "1": {
+          "certificate_chain": "",
+          "creation_time": "2026-11-18T20:25:40.972020187Z",
+          "hybrid_public_key": "",
+          "name": "ed25519",
+          "public_key": "V31ZVfpF3gTESZvnXiKVIvtu0TCzdxPAYdsYa0ckAVw="
+        }
+      },
+      "latest_version": 1,
+      "latest_version_type": "ed25519",
+      "min_available_version": 0,
+      "min_decryption_version": 1,
+      "min_encryption_version": 0,
+      "name": "sdk-sign",
+      "supports_decryption": false,
+      "supports_derivation": true,
+      "supports_encryption": false,
+      "supports_signing": true,
+      "type": "ed25519"
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "transit"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/secret/config"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "8f8112fd-5c23-37c0-eeb7-3b680dd83827",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "cas_required": false,
+      "delete_version_after": "0s",
+      "max_versions": 0
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "kv"
+  }
+}
