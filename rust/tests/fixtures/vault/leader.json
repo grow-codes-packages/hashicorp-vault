@@ -1,0 +1,19 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/sys/leader"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "ha_enabled": false,
+    "is_self": false,
+    "active_time": "0001-01-01T00:00:00Z",
+    "leader_address": "",
+    "leader_cluster_address": "",
+    "performance_standby": false,
+    "performance_standby_last_remote_wal": 0
+  }
+}

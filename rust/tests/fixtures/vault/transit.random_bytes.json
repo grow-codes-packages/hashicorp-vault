@@ -1,0 +1,23 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/transit/random/32"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "09cf7a5b-65a7-ff8b-19ae-3bd3fdde9f99",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "random_bytes": "rfdUpvJqcmG8kovNm0yTMw+JJskUUpDiXqKiES0AygQ="
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "transit"
+  }
+}

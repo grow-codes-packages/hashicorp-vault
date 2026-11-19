@@ -1,0 +1,26 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/sys/health"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "initialized": true,
+    "sealed": false,
+    "standby": false,
+    "performance_standby": false,
+    "replication_performance_mode": "disabled",
+    "replication_dr_mode": "disabled",
+    "server_time_utc": 1795033544,
+    "version": "2.2.2",
+    "enterprise": false,
+    "cluster_name": "vault-cluster-c254e8fc",
+    "cluster_id": "32de40d4-809f-a181-5ebb-a116f2a06c6c",
+    "echo_duration_ms": 0,
+    "clock_skew_ms": 0,
+    "replication_primary_canary_age_ms": 0
+  }
+}

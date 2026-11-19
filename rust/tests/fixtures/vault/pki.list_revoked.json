@@ -1,0 +1,25 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "LIST",
+    "path": "/v1/pki/certs/revoked"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "748fedf6-a0cf-518a-8d03-7c9e99ef33ac",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "keys": [
+        "0f:0d:60:2b:8a:bc:ab:4d:f8:9f:a7:0e:59:3a:01:10:3e:8c:a4:47"
+      ]
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "pki"
+  }
+}

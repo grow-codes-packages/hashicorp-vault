@@ -1,0 +1,27 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/secret/data/app/RUN/login"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": null,
+    "wrap_info": {
+      "token": "REDACTED",
+      "accessor": "REDACTED",
+      "ttl": 60,
+      "creation_time": "2026-11-18T20:25:46.235955066Z",
+      "creation_path": "secret/data/app/RUN/login"
+    },
+    "warnings": null,
+    "auth": null,
+    "mount_type": ""
+  }
+}
