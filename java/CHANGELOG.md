@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/grow-codes-packages/hashicorp-vault/compare/java-v0.1.1...java-v0.1.2) (2026-11-19)
+
+
+### Dependencies
+
+* **java:** Bump the java group across 2 directories with 11 updates ([#14](https://github.com/grow-codes-packages/hashicorp-vault/issues/14)) ([1b6995d](https://github.com/grow-codes-packages/hashicorp-vault/commit/1b6995d12340d88579b3fa25993b0a600d1a7b29))
+
 ## [0.1.1](https://github.com/grow-codes-packages/hashicorp-vault/compare/java-v0.1.0...java-v0.1.1) (2026-11-19)
 
 
