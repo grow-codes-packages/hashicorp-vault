@@ -60,7 +60,8 @@ def test_connection_and_role_admin(
         role,
         db_name=conn,
         creation_statements=[
-            "CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}';"
+            "CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' "
+            "VALID UNTIL '{{expiration}}';"
         ],
         default_ttl_s=300,
         max_ttl_s=600,
@@ -96,7 +97,8 @@ def test_lease_manager_renews_then_expires(
         short,
         db_name=env["VAULT_TEST_DB_CONNECTION"],
         creation_statements=[
-            "CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}';"
+            "CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' "
+            "VALID UNTIL '{{expiration}}';"
         ],
         default_ttl_s=10,
         max_ttl_s=30,
