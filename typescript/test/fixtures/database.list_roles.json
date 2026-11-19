@@ -1,0 +1,23 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "LIST",
+    "path": "/v1/database/roles"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "2f8446db-ce8a-3c55-d603-d03e1237fbff",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "keys": ["rt-role-RUN", "sdk-readonly"]
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "database"
+  }
+}

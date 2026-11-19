@@ -1,0 +1,26 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/sys/seal-status"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "type": "shamir",
+    "initialized": true,
+    "sealed": false,
+    "t": 1,
+    "n": 1,
+    "progress": 0,
+    "nonce": "",
+    "version": "2.2.2",
+    "build_date": "2026-11-11T13:53:02Z",
+    "migration": false,
+    "cluster_name": "vault-cluster-991c07e8",
+    "cluster_id": "e3dd2326-f408-7348-ec55-697bf4b0149f",
+    "recovery_seal": false,
+    "storage_type": "file"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/sys/wrapping/unwrap"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "7de33870-4721-af32-77fc-f8766b32cd29",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "x": "y"
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "system"
+  }
+}

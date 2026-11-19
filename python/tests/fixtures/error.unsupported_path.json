@@ -1,0 +1,15 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/nope/does/not/exist"
+  },
+  "status": 404,
+  "contentType": "application/json",
+  "body": {
+    "errors": [
+      "no handler for route \"nope/does/not/exist\". route entry not found."
+    ]
+  }
+}

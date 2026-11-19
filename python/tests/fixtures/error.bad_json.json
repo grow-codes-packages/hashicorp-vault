@@ -1,0 +1,15 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "PUT",
+    "path": "/v1/secret/data/app/x"
+  },
+  "status": 500,
+  "contentType": "application/json",
+  "body": {
+    "errors": [
+      "invalid character 'j' looking for beginning of value"
+    ]
+  }
+}

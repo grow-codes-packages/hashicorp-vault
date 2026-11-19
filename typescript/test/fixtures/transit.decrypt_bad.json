@@ -1,0 +1,13 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/transit/decrypt/rt-aes-RUN"
+  },
+  "status": 400,
+  "contentType": "application/json",
+  "body": {
+    "errors": ["cipher: message authentication failed"]
+  }
+}

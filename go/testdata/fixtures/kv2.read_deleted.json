@@ -1,0 +1,33 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/secret/data/app/RUN/alpha"
+  },
+  "status": 404,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "8022b003-233d-4b16-6e86-b97b29c35005",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "data": null,
+      "metadata": {
+        "created_time": "2026-11-18T20:25:45.253633726Z",
+        "custom_metadata": {
+          "env": "ci",
+          "owner": "sdk"
+        },
+        "deletion_time": "2026-11-18T20:25:45.34219514Z",
+        "destroyed": false,
+        "version": 3
+      }
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": ""
+  }
+}

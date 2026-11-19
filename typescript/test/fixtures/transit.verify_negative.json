@@ -1,0 +1,23 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/transit/verify/sdk-sign"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "4233a3b7-f0dc-80ea-002d-fa717e6b2bf4",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "valid": false
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "transit"
+  }
+}

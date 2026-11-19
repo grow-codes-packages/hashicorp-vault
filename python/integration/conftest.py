@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import secrets as _random
 from collections.abc import Iterator
 from pathlib import Path
 
@@ -37,3 +38,26 @@ def env() -> dict[str, str]:
 def client(env: dict[str, str]) -> Iterator[sdk.VaultClient]:
     with core_client(env) as c:
         yield c
+
+
+@pytest.fixture
+def run_id() -> str:
+    """Unique lowercase id per test (names never collide between runs or languages)."""
+    return f"py{os.environ.get('GROW_TEST_RUN_ID', 'local')}{_random.token_hex(4)}".lower()
+
+
+@pytest.fixture
+def seeded(client: sdk.VaultClient, run_id: str) -> Iterator[str]:
+    """``app/<run>/hello`` = ``{"value": "world"}`` in KV v2 ``secret`` and KV v1 ``kv1`` (written
+    with the root token; the ``sdk-app`` policy grants ``app/*`` and not ``denied/*``). Yields
+    the path relative to the mount and deletes both copies afterwards."""
+    path = f"app/{run_id}/hello"
+    client.kv_v2("secret").write(path, {"value": "world"})
+    client.kv_v1("kv1").write(path, {"value": "world"})
+    client.kv_v2("secret").write(f"denied/{run_id}/hello", {"value": "nope"})
+    client.kv_v1("kv1").write(f"denied/{run_id}/hello", {"value": "nope"})
+    yield path
+    client.kv_v2("secret").delete_metadata(path)
+    client.kv_v1("kv1").delete(path)
+    client.kv_v2("secret").delete_metadata(f"denied/{run_id}/hello")
+    client.kv_v1("kv1").delete(f"denied/{run_id}/hello")

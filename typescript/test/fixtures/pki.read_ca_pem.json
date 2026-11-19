@@ -1,0 +1,11 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/pki/ca/pem"
+  },
+  "status": 200,
+  "contentType": "application/pem-certificate-chain",
+  "body": "-----BEGIN CERTIFICATE-----\nMIIBpDCCAUugAwIBAgIUfknNPv5GMQletTtlUdiAFAfYi7QwCgYIKoZIzj0EAwIw\nIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290IENBMB4XDTI2MTExODIwMjUx\nMVoXDTM2MTExNTIwMjU0MVowIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290\nIENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXwE6cUD9eTDn45sJpZ6xI/1d\n6XNr7yxr3/sOqxKnqu1gf7RZoU5sIP3dxUumOuZmUjVlV/Vf6xKxA4987o9IF6Nj\nMGEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFBVB\nJvga3TNniC1xCb/bNm5vUUlAMB8GA1UdIwQYMBaAFBVBJvga3TNniC1xCb/bNm5v\nUUlAMAoGCCqGSM49BAMCA0cAMEQCICft0K3cKcCbS8zmNfyoKyiXgTDGw7xq/Z4f\nf+mtu+2JAiATWflfD6MN5aK9MFaFUWgOGBGCjuQ/ZG+rTH+H5Nc/sw==\n-----END CERTIFICATE-----"
+}

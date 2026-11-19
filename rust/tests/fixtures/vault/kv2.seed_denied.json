@@ -1,0 +1,27 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/secret/data/denied/RUN"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "5d9bf577-a7d5-0763-13a6-7ae371d9428f",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "created_time": "2026-11-18T20:25:44.828677292Z",
+      "custom_metadata": null,
+      "deletion_time": "",
+      "destroyed": false,
+      "version": 1
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "kv"
+  }
+}

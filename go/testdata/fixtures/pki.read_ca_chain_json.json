@@ -1,0 +1,28 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/pki/cert/ca_chain"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "b45ffa24-f010-33a6-8348-f61cf4ab5abf",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "authority_key_id": "15:41:26:f8:1a:dd:33:67:88:2d:71:09:bf:db:36:6e:6f:51:49:40",
+      "ca_chain": "-----BEGIN CERTIFICATE-----\nMIIBpDCCAUugAwIBAgIUfknNPv5GMQletTtlUdiAFAfYi7QwCgYIKoZIzj0EAwIw\nIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290IENBMB4XDTI2MTExODIwMjUx\nMVoXDTM2MTExNTIwMjU0MVowIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290\nIENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXwE6cUD9eTDn45sJpZ6xI/1d\n6XNr7yxr3/sOqxKnqu1gf7RZoU5sIP3dxUumOuZmUjVlV/Vf6xKxA4987o9IF6Nj\nMGEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFBVB\nJvga3TNniC1xCb/bNm5vUUlAMB8GA1UdIwQYMBaAFBVBJvga3TNniC1xCb/bNm5v\nUUlAMAoGCCqGSM49BAMCA0cAMEQCICft0K3cKcCbS8zmNfyoKyiXgTDGw7xq/Z4f\nf+mtu+2JAiATWflfD6MN5aK9MFaFUWgOGBGCjuQ/ZG+rTH+H5Nc/sw==\n-----END CERTIFICATE-----",
+      "certificate": "-----BEGIN CERTIFICATE-----\nMIIBpDCCAUugAwIBAgIUfknNPv5GMQletTtlUdiAFAfYi7QwCgYIKoZIzj0EAwIw\nIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290IENBMB4XDTI2MTExODIwMjUx\nMVoXDTM2MTExNTIwMjU0MVowIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290\nIENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXwE6cUD9eTDn45sJpZ6xI/1d\n6XNr7yxr3/sOqxKnqu1gf7RZoU5sIP3dxUumOuZmUjVlV/Vf6xKxA4987o9IF6Nj\nMGEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFBVB\nJvga3TNniC1xCb/bNm5vUUlAMB8GA1UdIwQYMBaAFBVBJvga3TNniC1xCb/bNm5v\nUUlAMAoGCCqGSM49BAMCA0cAMEQCICft0K3cKcCbS8zmNfyoKyiXgTDGw7xq/Z4f\nf+mtu+2JAiATWflfD6MN5aK9MFaFUWgOGBGCjuQ/ZG+rTH+H5Nc/sw==\n-----END CERTIFICATE-----",
+      "revocation_reason": 0,
+      "revocation_time": 0,
+      "revocation_time_rfc3339": ""
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": ""
+  }
+}

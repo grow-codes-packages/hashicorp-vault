@@ -2,6 +2,25 @@
 //! Blocking wrapper (feature `blocking`). Each client owns a current-thread tokio runtime.
 //!
 //! Do not use it from inside an async runtime (calls would panic); use the async client there.
+//!
+//! The core calls (`health`, `ping`, `server_version`, `close`) have blocking methods. Every
+//! service module is reached through [`VaultClient::block_on`] with the async API, so the
+//! blocking client always offers exactly the async surface:
+//!
+//! ```no_run
+//! # fn demo() -> grow_hashicorp_vault::Result<()> {
+//! use grow_hashicorp_vault::blocking::VaultClient;
+//! use grow_hashicorp_vault::secrets::SecretsProvider;
+//!
+//! let client = VaultClient::from_env()?;
+//! let vault = client.async_client();
+//! let ct = client.block_on(vault.transit().encrypt("app-key", b"hello", None))?;
+//! let value = client.block_on(vault.secrets().get_string("api-key", None))?;
+//! # let _ = (ct, value);
+//! client.close();
+//! # Ok(())
+//! # }
+//! ```
 
 use std::future::Future;
 use std::time::Duration;
@@ -9,7 +28,7 @@ use std::time::Duration;
 use crate::core::{Error, HealthStatus, Result};
 use crate::{VaultClient as AsyncClient, VaultConfig};
 
-/// Blocking client for HashiCorp Vault with the same methods as the async client.
+/// Blocking client for Vault with the same methods as the async client.
 #[derive(Debug)]
 pub struct VaultClient {
     inner: AsyncClient,

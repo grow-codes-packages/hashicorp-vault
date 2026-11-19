@@ -230,7 +230,7 @@
     },
     {
       "path": "docker/compose.yml",
-      "sha256": "89649111229b2fddd85f295346b76a4ae55063253ca7f3760ad5493e64e7c448",
+      "sha256": "8fe8f575c7dcb21a828aea57dda29dc141c41ac8248b70b3ca0702b76c52c42b",
       "generated": true
     },
     {
@@ -600,7 +600,7 @@
     },
     {
       "path": "go/secrets_provider_test.go",
-      "sha256": "9ba589c91da1acd810b204d6b716055a1c95c0fac08d8ce701189bd9a85f95b0",
+      "sha256": "c04bdfbffda58ff0b54dd7ec8f8374c610c5c834949910a8ad4f26a8fbf3d122",
       "generated": true
     },
     {

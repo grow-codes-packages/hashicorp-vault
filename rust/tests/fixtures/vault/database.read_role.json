@@ -1,0 +1,32 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/database/roles/rt-role-RUN"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "582964b4-1c5c-8841-bea2-27bdbf8d54f4",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "creation_statements": [
+        "CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}';"
+      ],
+      "credential_type": "password",
+      "db_name": "rt-RUN",
+      "default_ttl": 300,
+      "max_ttl": 600,
+      "renew_statements": [],
+      "revocation_statements": [],
+      "rollback_statements": []
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "database"
+  }
+}

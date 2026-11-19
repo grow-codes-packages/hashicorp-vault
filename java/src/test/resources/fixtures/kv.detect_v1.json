@@ -1,0 +1,42 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/sys/internal/ui/mounts/kv1/app/RUN/alpha"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "db4cf9f4-8646-06dc-abf4-4306594f073d",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "accessor": "REDACTED",
+      "config": {
+        "default_lease_ttl": 2764800,
+        "force_no_cache": false,
+        "max_lease_ttl": 2764800
+      },
+      "deprecation_status": "supported",
+      "description": "",
+      "external_entropy_access": false,
+      "local": false,
+      "options": {
+        "version": "1"
+      },
+      "path": "kv1/",
+      "plugin_version": "",
+      "running_plugin_version": "v0.27.0+builtin",
+      "running_sha256": "",
+      "seal_wrap": false,
+      "type": "kv",
+      "uuid": "e11a0a9c-ecd6-005d-1d15-564d952e5e1f"
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": ""
+  }
+}

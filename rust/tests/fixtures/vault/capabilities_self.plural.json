@@ -1,0 +1,42 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/sys/capabilities-self"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "secret/data/denied/RUN": [
+      "deny"
+    ],
+    "secret/data/app/RUN/x": [
+      "create",
+      "delete",
+      "patch",
+      "read",
+      "update"
+    ],
+    "request_id": "cae38789-40bf-0b90-989c-9da50856f34a",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "secret/data/app/RUN/x": [
+        "create",
+        "delete",
+        "patch",
+        "read",
+        "update"
+      ],
+      "secret/data/denied/RUN": [
+        "deny"
+      ]
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "system"
+  }
+}

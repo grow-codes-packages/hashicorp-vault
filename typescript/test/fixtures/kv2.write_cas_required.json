@@ -1,0 +1,13 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/secret/data/app/RUN/beta"
+  },
+  "status": 400,
+  "contentType": "application/json",
+  "body": {
+    "errors": ["check-and-set parameter required for this call"]
+  }
+}

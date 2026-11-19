@@ -1,0 +1,27 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "LIST",
+    "path": "/v1/pki/certs"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "f4bfd5bd-95be-1afa-7baa-94d924ca67f7",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "keys": [
+        "0f:0d:60:2b:8a:bc:ab:4d:f8:9f:a7:0e:59:3a:01:10:3e:8c:a4:47",
+        "52:a2:38:ff:37:0b:37:e5:7e:e8:81:f0:08:82:43:b6:d6:d7:58:3b",
+        "7e:49:cd:3e:fe:46:31:09:5e:b5:3b:65:51:d8:80:14:07:d8:8b:b4"
+      ]
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "pki"
+  }
+}

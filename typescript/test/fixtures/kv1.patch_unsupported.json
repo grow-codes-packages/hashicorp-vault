@@ -1,0 +1,13 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "PATCH",
+    "path": "/v1/kv1/app/RUN/dir/child"
+  },
+  "status": 405,
+  "contentType": "application/json",
+  "body": {
+    "errors": ["1 error occurred:\n\t* unsupported operation\n\n"]
+  }
+}

@@ -31,3 +31,55 @@ pub fn load_bootstrap_env() {
 pub fn conformance_dir() -> PathBuf {
     sdk::testing::scenarios_dir(concat!(env!("CARGO_MANIFEST_DIR"), "/.."))
 }
+
+/// A bootstrap variable (`VAULT_TEST_<name>`, written by `docker/bootstrap/bootstrap.sh`);
+/// panics with a clear message when unset.
+pub fn test_env(name: &str) -> String {
+    load_bootstrap_env();
+    let var = format!("VAULT_TEST_{name}");
+    std::env::var(&var).unwrap_or_else(|_| panic!("{var} is not set (bootstrap env missing?)"))
+}
+
+/// An optional bootstrap variable (empty = `None`).
+pub fn test_env_opt(name: &str) -> Option<String> {
+    load_bootstrap_env();
+    std::env::var(format!("VAULT_TEST_{name}"))
+        .ok()
+        .filter(|v| !v.is_empty())
+}
+
+/// A short id unique to this test process and call.
+pub fn run_id() -> String {
+    use std::sync::atomic::{AtomicU32, Ordering};
+    static N: AtomicU32 = AtomicU32::new(0);
+    let nanos = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.subsec_nanos())
+        .unwrap_or(0);
+    format!(
+        "rs{:x}{:x}{}",
+        std::process::id(),
+        nanos,
+        N.fetch_add(1, Ordering::SeqCst)
+    )
+}
+
+/// The root client from the bootstrap environment (`GROW_HASHICORP_VAULT_URL` + `GROW_HASHICORP_VAULT_TOKEN`).
+pub fn root_client() -> sdk::VaultClient {
+    load_bootstrap_env();
+    sdk::VaultClient::from_env().expect("client from env")
+}
+
+/// A client for the same server without a token.
+pub fn anonymous_client() -> sdk::VaultClient {
+    load_bootstrap_env();
+    let url =
+        std::env::var("GROW_HASHICORP_VAULT_URL").unwrap_or_else(|_| sdk::DEFAULT_URL.to_owned());
+    sdk::VaultClient::new(
+        sdk::VaultConfig::builder()
+            .url(url)
+            .build()
+            .expect("config"),
+    )
+    .expect("client")
+}

@@ -1,0 +1,11 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/database/config/rt-RUN"
+  },
+  "status": 204,
+  "contentType": "application/json",
+  "body": null
+}

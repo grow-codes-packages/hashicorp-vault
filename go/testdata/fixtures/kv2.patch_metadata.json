@@ -1,0 +1,11 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "PATCH",
+    "path": "/v1/secret/metadata/app/RUN/alpha"
+  },
+  "status": 204,
+  "contentType": "application/json",
+  "body": null
+}

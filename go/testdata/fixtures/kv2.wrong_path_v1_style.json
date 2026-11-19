@@ -1,0 +1,23 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/secret/app/RUN/beta"
+  },
+  "status": 404,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "adac18ab-8149-478b-e372-48347d6b2b61",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": null,
+    "wrap_info": null,
+    "warnings": [
+      "Invalid path for a versioned K/V secrets engine. See the API docs for the appropriate API endpoints to use. If using the Vault CLI, use 'vault kv get' for this operation."
+    ],
+    "auth": null,
+    "mount_type": ""
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "PUT",
+    "path": "/v1/sys/leases/revoke"
+  },
+  "status": 204,
+  "contentType": "application/json",
+  "body": null
+}

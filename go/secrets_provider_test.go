@@ -281,7 +281,9 @@ func (vanishing) PutSecret(context.Context, string, []byte, vault.SetOptions) (s
 	return "", nil
 }
 
-func (vanishing) RemoveSecret(context.Context, string, vault.DeleteOptions) error { return nil }
+func (vanishing) RemoveSecret(context.Context, string, vault.DeleteOptions) error {
+	return nil
+}
 
 func (vanishing) FetchMetadata(context.Context, string, vault.GetOptions) (*vault.SecretMetadata, error) {
 	return nil, nil

@@ -1,0 +1,13 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/auth/kubernetes/login"
+  },
+  "status": 500,
+  "contentType": "application/json",
+  "body": {
+    "errors": ["1 error(s) decoding:\n\n* 'aud': source data must be an array or slice, got string"]
+  }
+}

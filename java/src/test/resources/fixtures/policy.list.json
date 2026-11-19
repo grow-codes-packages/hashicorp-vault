@@ -1,0 +1,30 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "LIST",
+    "path": "/v1/sys/policies/acl"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "16f3353b-1dbf-951c-bbc2-f1e1c0028a2a",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "keys": [
+        "default",
+        "default-ceiling",
+        "rt-pol-RUN",
+        "sdk-app",
+        "sdk-oidc",
+        "root"
+      ]
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "system"
+  }
+}

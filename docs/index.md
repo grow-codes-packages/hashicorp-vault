@@ -27,11 +27,18 @@ has the same functions, options, defaults, error codes and behaviour, tested aga
 - **Redaction everywhere**: credentials never appear in errors, logs, hooks or `toString`
   ([Redaction](redaction.md)).
 - **Secrets**: typed getters, bulk reads, `loadEnv`, watch and a TTL cache ([Secrets](secrets.md)).
-- **Service functions** for the HashiCorp Vault API ([Functions](functions.md)).
+- **The HashiCorp Vault API** ([Functions](functions.md)): [auth](functions/auth.md) with token
+  renewal, [KV v1/v2](functions/kv.md), [transit](functions/transit.md),
+  [database credentials and leases](functions/database.md), [PKI](functions/pki.md),
+  [system and admin](functions/system.md),
+  [capability checks and namespaces](functions/namespaces.md),
+  [response wrapping](functions/wrapping.md) and
+  [testing helpers](functions/testing.md).
 
 Start with [Install](install.md) and the [Quickstart](quickstart.md).
 
 !!! note "Independent project"
     This SDK is made by [Grow Codes](https://grow.codes). HashiCorp Vault is a trademark of
-    HashiCorp, Inc. (an IBM company). This project is not affiliated with or endorsed by HashiCorp, Inc. (an IBM company). See
+    HashiCorp, Inc. (an IBM company). This project is not affiliated with or endorsed by
+    HashiCorp, Inc. or IBM. See
     [License & disclaimer](license.md).

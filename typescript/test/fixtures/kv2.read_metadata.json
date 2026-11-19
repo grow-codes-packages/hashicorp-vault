@@ -1,0 +1,70 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/secret/metadata/app/RUN/alpha"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "441859be-890d-33de-061c-6f1ba35618f0",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "cas_required": false,
+      "created_time": "2026-11-18T20:25:45.221592619Z",
+      "current_version": 3,
+      "custom_metadata": null,
+      "delete_version_after": "0s",
+      "last_updated_by": {
+        "actor": "root",
+        "operation": "patch",
+        "client_id": "0DHqvq2D77kL2/JTPSZkTMJbkFVmUu0TzMi0jiXcFy8="
+      },
+      "max_versions": 0,
+      "oldest_version": 0,
+      "updated_time": "2026-11-18T20:25:45.253633726Z",
+      "versions": {
+        "1": {
+          "created_by": {
+            "actor": "root",
+            "operation": "create",
+            "client_id": "0DHqvq2D77kL2/JTPSZkTMJbkFVmUu0TzMi0jiXcFy8="
+          },
+          "created_time": "2026-11-18T20:25:45.221592619Z",
+          "deleted_by": null,
+          "deletion_time": "",
+          "destroyed": false
+        },
+        "2": {
+          "created_by": {
+            "actor": "root",
+            "operation": "update",
+            "client_id": "0DHqvq2D77kL2/JTPSZkTMJbkFVmUu0TzMi0jiXcFy8="
+          },
+          "created_time": "2026-11-18T20:25:45.241764078Z",
+          "deleted_by": null,
+          "deletion_time": "",
+          "destroyed": false
+        },
+        "3": {
+          "created_by": {
+            "actor": "root",
+            "operation": "patch",
+            "client_id": "0DHqvq2D77kL2/JTPSZkTMJbkFVmUu0TzMi0jiXcFy8="
+          },
+          "created_time": "2026-11-18T20:25:45.253633726Z",
+          "deleted_by": null,
+          "deletion_time": "",
+          "destroyed": false
+        }
+      }
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "kv"
+  }
+}

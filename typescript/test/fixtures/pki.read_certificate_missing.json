@@ -1,0 +1,13 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/pki/cert/00-11-22"
+  },
+  "status": 404,
+  "contentType": "application/json",
+  "body": {
+    "errors": []
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "PATCH",
+    "path": "/v1/secret/data/app/RUN/alpha"
+  },
+  "status": 415,
+  "contentType": "application/json",
+  "body": {
+    "errors": [
+      "PATCH requires Content-Type of application/merge-patch+json, provided application/json"
+    ]
+  }
+}

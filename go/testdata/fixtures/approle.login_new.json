@@ -1,0 +1,43 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/auth/approle/login"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "a20c1bb3-4f6c-b312-d9f8-a28bbced6d0c",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": null,
+    "wrap_info": null,
+    "warnings": null,
+    "auth": {
+      "client_token": "REDACTED",
+      "accessor": "REDACTED",
+      "policies": [
+        "default",
+        "sdk-app"
+      ],
+      "token_policies": [
+        "default",
+        "sdk-app"
+      ],
+      "metadata": {
+        "role_name": "rt-role-RUN",
+        "tag": "sdk"
+      },
+      "lease_duration": 600,
+      "renewable": true,
+      "entity_id": "07d26bc7-f87f-263b-e6b6-f8eb8a4a05c2",
+      "token_type": "service",
+      "orphan": true,
+      "mfa_requirement": null,
+      "num_uses": 0
+    },
+    "mount_type": ""
+  }
+}

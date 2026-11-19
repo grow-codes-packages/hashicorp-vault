@@ -1,0 +1,25 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/pki/revoke"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "6334622c-8491-9ec2-62e8-ac554136ca39",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "revocation_time": 1795033545,
+      "revocation_time_rfc3339": "2026-11-18T20:25:45.899170329Z",
+      "state": "revoked"
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "pki"
+  }
+}

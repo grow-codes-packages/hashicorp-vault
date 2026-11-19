@@ -1,0 +1,13 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "DELETE",
+    "path": "/v1/transit/keys/rt-aes-RUN"
+  },
+  "status": 400,
+  "contentType": "application/json",
+  "body": {
+    "errors": ["error deleting policy rt-aes-RUN: deletion is not allowed for this key"]
+  }
+}

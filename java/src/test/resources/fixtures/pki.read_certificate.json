@@ -1,0 +1,27 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "GET",
+    "path": "/v1/pki/cert/0f:0d:60:2b:8a:bc:ab:4d:f8:9f:a7:0e:59:3a:01:10:3e:8c:a4:47"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "53c975d0-7464-9f1e-7852-2eb2daec24a3",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "authority_key_id": "15:41:26:f8:1a:dd:33:67:88:2d:71:09:bf:db:36:6e:6f:51:49:40",
+      "certificate": "-----BEGIN CERTIFICATE-----\nMIICUjCCAfegAwIBAgIUDw1gK4q8q034n6cOWToBED6MpEcwCgYIKoZIzj0EAwIw\nIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290IENBMB4XDTI2MTExODIwMjUx\nNVoXDTI2MTExODIxMjU0NVowFzEVMBMGA1UEAxMMc3ZjLnNkay50ZXN0MFkwEwYH\nKoZIzj0CAQYIKoZIzj0DAQcDQgAEoWOukYdFuphhjOuML1u0ppCN5TzDvMXk2EHf\nFyNSDo4fD8Cd3zxgQNxGSOBF96/p67Zv470+AVsnWUgzLFtDMKOCARYwggESMA4G\nA1UdDwEB/wQEAwIDqDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwHQYD\nVR0OBBYEFCRTgCElLUkTxzNTiCHAYCWqrEsJMB8GA1UdIwQYMBaAFBVBJvga3TNn\niC1xCb/bNm5vUUlAMEEGCCsGAQUFBwEBBDUwMzAxBggrBgEFBQcwAoYlaHR0cDov\nL2hhc2hpY29ycC12YXVsdDo4MjAwL3YxL3BraS9jYTAlBgNVHREEHjAcggxhbHQu\nc2RrLnRlc3SCDHN2Yy5zZGsudGVzdDA3BgNVHR8EMDAuMCygKqAohiZodHRwOi8v\naGFzaGljb3JwLXZhdWx0OjgyMDAvdjEvcGtpL2NybDAKBggqhkjOPQQDAgNJADBG\nAiEAiONGNTrnl9wyQlR2JhauagGKfINBJtZuOUVhtZV8/44CIQCh72Mp50tLoRkh\n21G9ojGsP7VfPc9l7RfQFsCA1wwGQQ==\n-----END CERTIFICATE-----",
+      "revocation_reason": 0,
+      "revocation_time": 0,
+      "revocation_time_rfc3339": ""
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": ""
+  }
+}

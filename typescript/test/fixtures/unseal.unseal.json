@@ -1,0 +1,26 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "PUT",
+    "path": "/v1/sys/unseal"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "type": "shamir",
+    "initialized": true,
+    "sealed": false,
+    "t": 1,
+    "n": 1,
+    "progress": 0,
+    "nonce": "",
+    "version": "2.2.2",
+    "build_date": "2026-11-11T13:53:02Z",
+    "migration": false,
+    "cluster_name": "vault-cluster-c254e8fc",
+    "cluster_id": "32de40d4-809f-a181-5ebb-a116f2a06c6c",
+    "recovery_seal": false,
+    "storage_type": "file"
+  }
+}

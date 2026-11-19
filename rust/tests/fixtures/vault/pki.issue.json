@@ -1,0 +1,32 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/pki/issue/sdk-test"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "c5f32071-f6dc-4f78-4571-4253df8d3b0f",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "authority_key_id": "15:41:26:f8:1a:dd:33:67:88:2d:71:09:bf:db:36:6e:6f:51:49:40",
+      "ca_chain": [
+        "-----BEGIN CERTIFICATE-----\nMIIBpDCCAUugAwIBAgIUfknNPv5GMQletTtlUdiAFAfYi7QwCgYIKoZIzj0EAwIw\nIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290IENBMB4XDTI2MTExODIwMjUx\nMVoXDTM2MTExNTIwMjU0MVowIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290\nIENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXwE6cUD9eTDn45sJpZ6xI/1d\n6XNr7yxr3/sOqxKnqu1gf7RZoU5sIP3dxUumOuZmUjVlV/Vf6xKxA4987o9IF6Nj\nMGEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFBVB\nJvga3TNniC1xCb/bNm5vUUlAMB8GA1UdIwQYMBaAFBVBJvga3TNniC1xCb/bNm5v\nUUlAMAoGCCqGSM49BAMCA0cAMEQCICft0K3cKcCbS8zmNfyoKyiXgTDGw7xq/Z4f\nf+mtu+2JAiATWflfD6MN5aK9MFaFUWgOGBGCjuQ/ZG+rTH+H5Nc/sw==\n-----END CERTIFICATE-----"
+      ],
+      "certificate": "-----BEGIN CERTIFICATE-----\nMIICUjCCAfegAwIBAgIUDw1gK4q8q034n6cOWToBED6MpEcwCgYIKoZIzj0EAwIw\nIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290IENBMB4XDTI2MTExODIwMjUx\nNVoXDTI2MTExODIxMjU0NVowFzEVMBMGA1UEAxMMc3ZjLnNkay50ZXN0MFkwEwYH\nKoZIzj0CAQYIKoZIzj0DAQcDQgAEoWOukYdFuphhjOuML1u0ppCN5TzDvMXk2EHf\nFyNSDo4fD8Cd3zxgQNxGSOBF96/p67Zv470+AVsnWUgzLFtDMKOCARYwggESMA4G\nA1UdDwEB/wQEAwIDqDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwHQYD\nVR0OBBYEFCRTgCElLUkTxzNTiCHAYCWqrEsJMB8GA1UdIwQYMBaAFBVBJvga3TNn\niC1xCb/bNm5vUUlAMEEGCCsGAQUFBwEBBDUwMzAxBggrBgEFBQcwAoYlaHR0cDov\nL2hhc2hpY29ycC12YXVsdDo4MjAwL3YxL3BraS9jYTAlBgNVHREEHjAcggxhbHQu\nc2RrLnRlc3SCDHN2Yy5zZGsudGVzdDA3BgNVHR8EMDAuMCygKqAohiZodHRwOi8v\naGFzaGljb3JwLXZhdWx0OjgyMDAvdjEvcGtpL2NybDAKBggqhkjOPQQDAgNJADBG\nAiEAiONGNTrnl9wyQlR2JhauagGKfINBJtZuOUVhtZV8/44CIQCh72Mp50tLoRkh\n21G9ojGsP7VfPc9l7RfQFsCA1wwGQQ==\n-----END CERTIFICATE-----",
+      "expiration": 1795037145,
+      "issuing_ca": "-----BEGIN CERTIFICATE-----\nMIIBpDCCAUugAwIBAgIUfknNPv5GMQletTtlUdiAFAfYi7QwCgYIKoZIzj0EAwIw\nIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290IENBMB4XDTI2MTExODIwMjUx\nMVoXDTM2MTExNTIwMjU0MVowIDEeMBwGA1UEAxMVR3JvdyBTREsgVGVzdCBSb290\nIENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXwE6cUD9eTDn45sJpZ6xI/1d\n6XNr7yxr3/sOqxKnqu1gf7RZoU5sIP3dxUumOuZmUjVlV/Vf6xKxA4987o9IF6Nj\nMGEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFBVB\nJvga3TNniC1xCb/bNm5vUUlAMB8GA1UdIwQYMBaAFBVBJvga3TNniC1xCb/bNm5v\nUUlAMAoGCCqGSM49BAMCA0cAMEQCICft0K3cKcCbS8zmNfyoKyiXgTDGw7xq/Z4f\nf+mtu+2JAiATWflfD6MN5aK9MFaFUWgOGBGCjuQ/ZG+rTH+H5Nc/sw==\n-----END CERTIFICATE-----",
+      "private_key": "REDACTED",
+      "private_key_type": "ec",
+      "serial_number": "0f:0d:60:2b:8a:bc:ab:4d:f8:9f:a7:0e:59:3a:01:10:3e:8c:a4:47"
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "pki"
+  }
+}

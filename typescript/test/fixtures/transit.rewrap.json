@@ -1,0 +1,24 @@
+{
+  "service": "hashicorp-vault",
+  "serverVersion": "2.2.2",
+  "request": {
+    "method": "POST",
+    "path": "/v1/transit/rewrap/rt-aes-RUN"
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "body": {
+    "request_id": "3015e51b-1771-1c1d-3614-383977c4e332",
+    "lease_id": "",
+    "renewable": false,
+    "lease_duration": 0,
+    "data": {
+      "ciphertext": "vault:v2:gTcGeh3OxgqMmn9zW6l78Qg4b/vJoXdtxvkjY4s10HZ22TKYHKA41QJhhF4+zhndBaU=",
+      "key_version": 2
+    },
+    "wrap_info": null,
+    "warnings": null,
+    "auth": null,
+    "mount_type": "transit"
+  }
+}
