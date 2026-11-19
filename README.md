@@ -829,7 +829,7 @@ Licensed under the [Apache License, Version 2.0](LICENSE). See [NOTICE](NOTICE) 
 ## Trademarks and disclaimer
 
 This is an independent, community-maintained project. It is **not affiliated with, endorsed or
-sponsored by HashiCorp, Inc. (an IBM company)**. HashiCorp Vault is a trademark of HashiCorp, Inc. (an IBM company); it is used here only to name the
+sponsored by its owner (HashiCorp, Inc. (an IBM company))**. HashiCorp Vault is a trademark of HashiCorp, Inc. (an IBM company); it is used here only to name the
 service this SDK connects to. The HashiCorp Vault server is licensed separately by its owner
 (BUSL-1.1 (source-available) server; `vault/api` client module is MPL-2.0).
 
