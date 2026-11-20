@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/grow-codes-packages/hashicorp-vault/compare/typescript-v0.1.1...typescript-v0.2.0) (2026-11-20)
+
+
+### Features
+
+* sync hashicorp-vault to sdk-kit 0.4.0 (foundation API) ([#17](https://github.com/grow-codes-packages/hashicorp-vault/issues/17)) ([95609c3](https://github.com/grow-codes-packages/hashicorp-vault/commit/95609c39bc5be94b2163e2dc16f88ba3486de765))
+
 ## [0.1.1](https://github.com/grow-codes-packages/hashicorp-vault/compare/typescript-v0.1.0...typescript-v0.1.1) (2026-11-19)
 
 
