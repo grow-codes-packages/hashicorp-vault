@@ -15,7 +15,7 @@ documentation = "https://docs.rs/grow-hashicorp-vault"
 readme = "README.md"
 keywords = ["grow-codes", "sdk", "vault", "hashicorp", "secrets"]
 categories = ["api-bindings", "asynchronous"]
-include = ["src/**/*.rs", "Cargo.toml", "README.md", "LICENSE", "NOTICE"]
+include = ["src/**/*.rs", "Cargo.toml", "README.md", "AGENTS.md", "LICENSE", "NOTICE"]
 
 [lib]
 name = "grow_hashicorp_vault"
