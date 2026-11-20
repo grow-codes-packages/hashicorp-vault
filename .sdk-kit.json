@@ -1095,7 +1095,7 @@
     },
     {
       "path": "java/src/test/java/codes/grow/packages/vault/SecretsConnectTest.java",
-      "sha256": "5ebad72f5533f40cba3073e728404841a07b63dd6a539dfe5b4c7f7874a07a71",
+      "sha256": "7c7eb77d6a39a8ab2497c1d3b8f58e83f0be3e156dd1aabe81e0fbba8ffd5512",
       "generated": false
     },
     {
@@ -1445,7 +1445,7 @@
     },
     {
       "path": "python/tests/test_secrets_connect.py",
-      "sha256": "7f3c75622c9eed2f6346b74d0179241e8e212b03e8c6b74bec865ffdadc87b6e",
+      "sha256": "3717895dec7a7280f5f384bed6690697eb341dc90491fdcd57a3f5014397fd54",
       "generated": false
     },
     {
@@ -1660,7 +1660,7 @@
     },
     {
       "path": "rust/src/testing/mod.rs",
-      "sha256": "d5fc2c40a57872c77c8903ffe48d908edd461df084b7fa9a9d10c1d85fe69e98",
+      "sha256": "7234391f512274008a7adb180f520a3c3570ac6419be642cf6ce900fb7a165dc",
       "generated": true
     },
     {
@@ -1940,7 +1940,7 @@
     },
     {
       "path": "typescript/src/secrets/load-config.ts",
-      "sha256": "1f29674b44dc6166ce2d6318f3b3f4daac5be23b2fc194b84bb5354894735d35",
+      "sha256": "efe1ed57fa0370e9abb04fbfe31cf3598f258f30cdd8350f8b9169168c6b0557",
       "generated": true
     },
     {
@@ -2050,7 +2050,7 @@
     },
     {
       "path": "typescript/test/secrets-connect.test.ts",
-      "sha256": "e793aa7f2a509ba8caf0000d477aa41ff4d9e2c57cfc3f3c38c6c6fcd7865a9c",
+      "sha256": "618e42eaa0a23479b7a9e881bc9af743ed3954de58c4ddd651245aabfd19df20",
       "generated": false
     },
     {
